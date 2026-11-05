@@ -340,3 +340,51 @@ h1 { font-size: clamp(48px, 7.6vw, 104px); line-height: .98; letter-spacing: -.0
 .hand-note { margin-bottom: 0; }
 .release-inner { padding: var(--s9) 0 calc(var(--s9) + var(--s4)); }
 @media (max-width: 820px) { .feature-list { grid-template-columns: minmax(0, 1fr); } }
+
+/* Spacing: one rhythm for the whole page. Sections sit --section apart; a headline sits --head above its content. */
+:root { --section: 128px; --head: 40px; }
+@media (max-width: 820px) { :root { --section: 80px; --head: 28px; } }
+
+.hero { padding: 88px 0 64px; }
+.hero .lede { margin-top: 0; }
+.hero .name-note { margin-top: var(--s4); }
+h1 { margin-bottom: var(--s5); }
+
+.preview { padding-bottom: var(--section); }
+.preview-bar { margin-bottom: var(--s4); }
+.preview-note { margin-top: var(--s5); }
+.credit { margin-top: var(--s1); }
+
+.features, .details, .files, .faq { padding-bottom: var(--section); }
+.features h2, .mobile h2, .files h2, .faq h2 { margin-bottom: var(--head); }
+h2:has(+ .sub) { margin-bottom: var(--s4) !important; }
+.sub { margin: 0 0 var(--head); }
+.files .sub { margin-bottom: 0; }
+
+.details { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s8); }
+.notes-paper { justify-self: start; margin-left: var(--s2); }
+.details-copy h2 { margin: 0; }
+
+.mobile { padding: var(--section) 0; margin-bottom: var(--section); }
+.shots-phone { margin-top: var(--s7); }
+.shots-phone figcaption { margin-top: var(--s4); }
+
+.faq h2 { margin-bottom: 0; }
+.faq-list details:first-child summary { padding-top: var(--s4); }
+
+.release-inner { padding: var(--section) 0; }
+.site-footer { padding: var(--s6) 0 var(--s7); }
+
+@media (max-width: 820px) {
+  .hero { padding: var(--s7) 0 var(--s6); }
+  .details { grid-template-columns: minmax(0, 1fr); gap: var(--s6); }
+  .details-copy { order: -1; }
+  .notes-paper { margin-left: 0; max-width: 420px; }
+  .faq h2 { margin-bottom: var(--s2); }
+  .shots-phone { margin-top: var(--s6); }
+}
+@media (max-width: 600px) {
+  .hero { margin-inline: 16px; }
+  .feature-list li { padding-right: 0; }
+}
+.details { overflow-x: clip; padding-inline: 2px; }
