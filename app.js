@@ -71,7 +71,7 @@
       });
       comments.replaceChildren(card);
     } else {
-      comments.replaceChildren(el('p', 'no-comments', 'No comments yet. Select some text to add one.'));
+      comments.replaceChildren(el('p', 'no-comments', 'Nothing to say about this one yet. Select a phrase to change that.'));
     }
     document.querySelectorAll('.sb-scene').forEach((r) => r.setAttribute('aria-current', String(r.dataset.scene === id)));
     $('#view-scene .scroll').scrollTop = 0;
@@ -128,9 +128,9 @@
   // Page tabs
   const tabs = [...document.querySelectorAll('[role="tab"]')];
   const notes = {
-    scene: 'Pick a scene in the sidebar, or click the highlighted phrase to find its comment.',
-    board: 'Each chapter is a column. Click a card to open its scene.',
-    book: 'The whole draft, set as a book. The contents rail follows along.',
+    scene: 'Pick a scene. Click the highlighted phrase to see what the editor thought of it.',
+    board: 'Each chapter is a column. Every card opens its scene.',
+    book: 'The whole draft, set like a book. It reads better than you expect, or worse, which is just as useful.',
   };
   function setView(view, focus) {
     tabs.forEach((t) => {
@@ -154,7 +154,7 @@
   });
 
   openScene(current);
-  note.textContent = 'Pick a scene in the sidebar, or step back to the board.';
+  note.textContent = 'Make yourself at home. Mind the bloodstain.';
   // ?view=board or ?view=book opens that page directly.
   const start = new URLSearchParams(location.search).get('view');
   if (start === 'board' || start === 'book') setView(start);

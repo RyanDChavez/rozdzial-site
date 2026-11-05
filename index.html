@@ -6,10 +6,10 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#FBF9F3" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#2E2A25" media="(prefers-color-scheme: dark)">
-  <title>Rozdział — A place for your novel</title>
-  <meta name="description" content="Rozdział is a writing app for novels on Mac, iPhone and iPad. Write in scenes, plan on a board, and read your draft back as a book. In development.">
-  <meta property="og:title" content="Rozdział — A place for your novel">
-  <meta property="og:description" content="Write in scenes, plan on a board, and read your draft back as a book. For Mac, iPhone and iPad. In development.">
+  <title>Rozdział — An accomplice for your novel</title>
+  <meta name="description" content="Rozdział is a writing app for novelists, on Mac, iPhone and iPad. Write in scenes, then read the whole thing back as a book. In development.">
+  <meta property="og:title" content="Rozdział — An accomplice for your novel">
+  <meta property="og:description" content="Write in scenes, then read the whole thing back as a book. For Mac, iPhone and iPad. In development.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://rozdzial.com/">
   <meta property="og:image" content="https://rozdzial.com/assets/app-icon-512.png">
@@ -31,21 +31,23 @@
     <a href="#features">Features</a>
     <a href="#mobile">iPhone &amp; iPad</a>
     <a href="#questions">Questions</a>
+    <a class="nav-status" href="#release"><span class="dot" aria-hidden="true"></span>In development</a>
   </nav>
 </header>
 
 <main id="main">
   <section class="hero wrap" aria-labelledby="hero-title">
-    <p class="label"><span class="dot" aria-hidden="true"></span>In development · Mac, iPhone and iPad</p>
-    <h1 id="hero-title">A place for your novel.</h1>
-    <p class="lede">Write in scenes, plan on a board, and read the draft back as a book. Your manuscript, characters and notes live together in one file that belongs to you.</p>
-    <p class="name-note"><span lang="pl">Rozdział</span> is Polish for “chapter.” Say it <strong>ROZ</strong>-jow.</p>
+    <p class="label"><span class="rule-short" aria-hidden="true"></span>A writing app for Mac, iPhone and iPad</p>
+    <h1 id="hero-title">An accomplice<br><em>for your novel.</em></h1>
+    <p class="lede">Write it one scene at a time, then read the whole thing back as a book, set in type, before anyone else has to.</p>
+    <p class="name-note"><span lang="pl">Rozdział</span> is Polish for “chapter.” Say <strong>ROZ</strong>-jow, and forgive us the ł.</p>
+    <span class="margin-note" aria-hidden="true">Every story starts somewhere.</span>
   </section>
 
   <section class="preview" aria-labelledby="preview-title">
     <div class="wrap">
       <div class="preview-bar">
-        <h2 id="preview-title" class="label">Try the sample novel</h2>
+        <h2 id="preview-title" class="label">Come in. The house is haunted.</h2>
         <div class="views" role="tablist" aria-label="Page">
           <button role="tab" id="tab-scene" aria-controls="view-scene" aria-selected="true" data-view="scene">Scene</button>
           <button role="tab" id="tab-board" aria-controls="view-board" aria-selected="false" tabindex="-1" data-view="board">Board</button>
@@ -116,7 +118,7 @@
                     <div class="metric"><span class="sb-label">Scenes by status</span><b>3 done</b><span class="bar done"><i></i></span></div>
                     <div class="metric"><span class="sb-label">Open comments</span><b>1</b><span class="muted small">Buying a Haunted House</span></div>
                   </div>
-                  <div class="controls" aria-hidden="true"><span>Color by <b>Arc</b><span class="chev open" aria-hidden="true"></span></span><span>Filter<span class="chev open" aria-hidden="true"></span></span></div>
+                  <div class="controls" aria-hidden="true"><span>Color by <b>Arc</b><span class="chev open"></span></span><span>Filter<span class="chev open"></span></span></div>
                   <div class="columns">
                     <div class="column">
                       <h4><span class="num">1</span>Chapter 1</h4>
@@ -145,92 +147,116 @@
         </div>
       </div>
 
-      <p class="preview-note" id="preview-note">Pick a scene in the sidebar, or step back to the board.</p>
-      <p class="credit">This is the sample novel that comes with Rozdział: the opening of Oscar Wilde’s <cite>The Canterville Ghost</cite> (1906), which is in the public domain. The preview is a drawing of the Mac app that runs in your browser.</p>
+      <p class="preview-note" id="preview-note">Make yourself at home. Mind the bloodstain.</p>
+      <p class="credit">The app’s sample novel is the opening of Oscar Wilde’s <cite>The Canterville Ghost</cite> (1906), which is in the public domain. This is a drawing of the Mac app, not the app itself.</p>
     </div>
   </section>
 
   <section class="features wrap" id="features" aria-labelledby="features-title">
     <div class="section-head">
-      <h2 id="features-title">One window for the whole book.</h2>
-      <p>A sidebar of chapters and scenes on the left, and a page for whatever you pick on the right. Every control sits next to the thing it changes.</p>
+      <h2 id="features-title">A novel is a big thing.<br><em>Start with one scene.</em></h2>
+      <p>Chapters and scenes run down the side; the page you’re on sits in the middle. You needn’t hold the whole book in your head, only the paragraph in front of you.</p>
     </div>
 
     <div class="feature-groups">
       <div class="group">
         <h3 class="label">Write</h3>
         <dl>
-          <dt>Book paragraphs as you type</dt><dd>Iowan Old Style by default, first-line indents and a measure of about seventy characters. Focus mode hides everything but the text.</dd>
-          <dt>Read it back as a book</dt><dd>The Manuscript view sets the whole novel like a printed book, with chapter openings, ⁂ between scenes and a contents rail that follows along.</dd>
-          <dt>Find across everything</dt><dd>Search and replace across every scene, note and comment in the novel. Replace All undoes in one step.</dd>
+          <dt>It looks like a book from the first line</dt><dd>Indents, a sensible measure and a serif made for reading on screen. Focus mode hides everything else, excuses included.</dd>
+          <dt>Read it back in type</dt><dd>The Manuscript view sets the whole novel as a printed book. Mistakes look different in print. So do good sentences.</dd>
+          <dt>Find anything</dt><dd>Search every scene, note and comment at once. Replace All can be undone, which is the only reason anyone dares to use it.</dd>
         </dl>
       </div>
       <div class="group">
         <h3 class="label">Plan</h3>
         <dl>
-          <dt>A board of chapters</dt><dd>Each chapter is a column of scene cards. Color them by status, arc or character, and filter to what you’re working on.</dd>
-          <dt>Characters that find themselves</dt><dd>Write a character’s name, or one of their other names, and the scene is tagged. Remove the tag and it stays removed.</dd>
-          <dt>Notes with pictures</dt><dd>Research, maps and photographs live in notes beside the manuscript. Characters and locations get note pages of their own.</dd>
+          <dt>A board of chapters</dt><dd>Each chapter is a column of cards. Color them by arc or by character and the shape of the book shows itself.</dd>
+          <dt>Characters who find themselves</dt><dd>Mention Mrs. Umney and the scene knows she’s in it. Take her out of the scene and she stays out.</dd>
+          <dt>Notes, with pictures</dt><dd>Maps, photographs and research sit beside the manuscript, where they’re useful, rather than in a folder, where they’re forgotten.</dd>
         </dl>
       </div>
       <div class="group">
         <h3 class="label">Revise</h3>
         <dl>
-          <dt>Comments on the text</dt><dd>Select a phrase and leave yourself a note. Comments stay anchored to their words as you edit around them.</dd>
-          <dt>Versions you choose to keep</dt><dd>Save a version before a big change, compare it word by word, and restore it. Restoring saves the current draft first.</dd>
-          <dt>A writing plan that fits</dt><dd>A daily target, a deadline pace, or none at all. Counts are net, so a day spent cutting reads as editing, not as a miss.</dd>
+          <dt>Comments that stay put</dt><dd>Leave yourself a note on a phrase. It keeps hold of those words however much you rewrite around them.</dd>
+          <dt>Versions, before you do something brave</dt><dd>Save one, compare it word by word, and restore it if bravery fails. Restoring saves the current draft first.</dd>
+          <dt>A plan, or no plan</dt><dd>A daily target, a pace for a deadline, or simply a count. Words you cut are work too, so a shorter day can be a better one.</dd>
         </dl>
       </div>
+    </div>
+  </section>
+
+  <section class="details wrap" aria-labelledby="details-title">
+    <div class="notes-paper" aria-label="Example character note">
+      <span class="paper-label">Character notes / 07</span>
+      <div class="profile"><span class="avatar big" style="--sw: var(--c6); --sl: var(--l6)">U</span><div><h3>Mrs. Umney</h3><p>The housekeeper</p></div></div>
+      <div class="note-line"><span>Location</span><b>Canterville Chase</b></div>
+      <div class="note-line"><span>Appears in</span><b>The Otises Arrive · The Bloodstain</b></div>
+      <p class="hand-note">Has seen things that would stand any Christian’s hair on end. Faints on cue. Ask for double wages.</p>
+      <span class="paper-foot">Page 1 of a very long acquaintance.</span>
+    </div>
+    <div class="details-copy">
+      <h2 id="details-title">For the details<br><em>between the lines.</em></h2>
+      <p>A character’s other names. The room where it happened. What the housekeeper saw. Every character, place and arc gets a page of its own, linked to the scenes it turns up in.</p>
     </div>
   </section>
 
   <section class="mobile" id="mobile" aria-labelledby="mobile-title">
     <div class="wrap">
       <div class="section-head">
-        <h2 id="mobile-title">Keep writing on iPhone and iPad.</h2>
-        <p>The same novel opens from Files and iCloud Drive. Write and revise scenes, check the outline, set a writing plan and go back to a saved version. If two devices both changed the book, Rozdział keeps both drafts and asks which one to continue.</p>
+        <h2 id="mobile-title">The novel<br><em>comes with you.</em></h2>
+        <p>Open the same file on iPhone or iPad from iCloud Drive. Start a scene on the train and finish it at the desk. If both devices changed the book, Rozdział keeps both drafts and lets you choose. It doesn’t guess.</p>
       </div>
       <figure class="shot-ipad">
         <img src="assets/ipad-writing.jpg" width="1600" height="1112" loading="lazy" alt="Rozdział on iPad: the chapter outline on the left with three scenes, and the opening of Buying a Haunted House on the right.">
       </figure>
       <div class="shots-phone">
-        <figure><img src="assets/iphone-writing.jpg" width="750" height="1334" loading="lazy" alt="Rozdział on iPhone, showing the scene Buying a Haunted House."><figcaption>A scene, edge to edge.</figcaption></figure>
-        <figure><img src="assets/iphone-plan.jpg" width="750" height="1334" loading="lazy" alt="The writing plan sheet on iPhone, with the daily target set to Off."><figcaption>A plan, or no plan.</figcaption></figure>
-        <figure><img src="assets/iphone-review-dark.jpg" width="750" height="1334" loading="lazy" alt="Choosing between drafts from two devices on iPhone, in dark mode."><figcaption>Two drafts, nothing lost.</figcaption></figure>
+        <figure><img src="assets/iphone-writing.jpg" width="750" height="1334" loading="lazy" alt="Rozdział on iPhone, showing the scene Buying a Haunted House."><figcaption>A scene, and nothing else.</figcaption></figure>
+        <figure><img src="assets/iphone-plan.jpg" width="750" height="1334" loading="lazy" alt="The writing plan sheet on iPhone, with the daily target set to Off."><figcaption>A plan, if you want one.</figcaption></figure>
+        <figure><img src="assets/iphone-review-dark.jpg" width="750" height="1334" loading="lazy" alt="Choosing between drafts from two devices on iPhone, in dark mode."><figcaption>Two drafts. You decide.</figcaption></figure>
       </div>
-      <p class="credit">Screens from the current development build.</p>
+      <p class="credit">From the development build.</p>
     </div>
   </section>
 
   <section class="files wrap" aria-labelledby="files-title">
     <div class="section-head">
-      <h2 id="files-title">Your book stays yours.</h2>
-      <p>No accounts and no analytics. The app makes no network calls of its own.</p>
+      <h2 id="files-title">Your book is<br><em>none of our business.</em></h2>
+      <p>No accounts and no analytics. The app never phones home. It doesn’t know where home is.</p>
     </div>
     <div class="file-grid">
-      <div><h3>A document on your disk</h3><p>Each novel is one file you can move, copy and back up like any other.</p></div>
-      <div><h3>Backups where you want them</h3><p>Choose a Dropbox, Google Drive, OneDrive or iCloud Drive folder, and Rozdział saves a zipped copy there each hour you write. A local backup is always on.</p></div>
-      <div><h3>Bring a manuscript in</h3><p>Import Word, RTF, plain text or Markdown. Chapter headings and <code>***</code> breaks become chapters and scenes.</p></div>
-      <div><h3>Send it out</h3><p>Export to Word, RTF, PDF, Markdown or EPUB, typeset as a book or in standard manuscript format for submissions.</p></div>
+      <div><h3>One file</h3><p>Each novel is a single document. Copy it, move it, or email it to yourself in a panic.</p></div>
+      <div><h3>Backups where you like</h3><p>Point Rozdział at a Dropbox, Google Drive, OneDrive or iCloud Drive folder and it leaves a zipped copy there each hour you write. It keeps a local copy regardless.</p></div>
+      <div><h3>Bring the old draft</h3><p>Import Word, RTF, plain text or Markdown. Chapter headings and <code>***</code> breaks become chapters and scenes.</p></div>
+      <div><h3>Send it out dressed</h3><p>Export to Word, RTF, PDF, Markdown or EPUB, set as a book or in the plain manuscript format that agents ask for.</p></div>
     </div>
   </section>
 
   <section class="faq wrap" id="questions" aria-labelledby="faq-title">
-    <h2 id="faq-title">Questions</h2>
+    <h2 id="faq-title">Questions,<br><em>before chapter one.</em></h2>
     <div class="faq-list">
-      <details><summary>When can I try it?</summary><p>Rozdział is in development. A way to try it will be posted here when it’s ready. The Mac app needs macOS 15 or later, and the iPhone and iPad app needs iOS or iPadOS 17 or later.</p></details>
-      <details><summary>How do I say the name?</summary><p><span lang="pl">Rozdział</span> means “chapter” in Polish. In English it’s close to <strong>ROZ-jow</strong>: two syllables with the stress on the first, “j” as in “jam,” and “jow” rhyming with “cow.” The Polish <span lang="pl">ł</span> sounds like an English w.</p></details>
-      <details><summary>Does it work offline?</summary><p>Yes. Everything happens on your device. Backups to a cloud folder are uploaded by that provider’s own app when you’re online.</p></details>
-      <details><summary>Does it sync between my Mac and iPhone?</summary><p>The same file opens on each device through iCloud Drive or Files. Rozdział shows whether your latest changes have uploaded, and if two devices edited the book at once it keeps both drafts for you to choose between. It doesn’t merge prose automatically, and there’s no live collaboration.</p></details>
-      <details><summary>Is there AI in it?</summary><p>No. Rozdział doesn’t generate, rewrite or analyze your writing.</p></details>
-      <details><summary>Will it slow down on a long novel?</summary><p>It’s built on an 8 GB Mac mini and checked against manuscripts of up to 1.2 million words, longer than the Bible.</p></details>
+      <details><summary>When can I try it?</summary><p>Not yet. When it’s ready we’ll say so here, without much modesty. The Mac app needs macOS 15 or later, and the iPhone and iPad app needs iOS or iPadOS 17 or later.</p></details>
+      <details><summary>How do I say the name?</summary><p>Close to <strong>ROZ-jow</strong>: two syllables, stress on the first, “j” as in “jam,” and “jow” rhyming with “cow.” The Polish <span lang="pl">ł</span> is an English w in disguise.</p></details>
+      <details><summary>Does it work offline?</summary><p>Yes. Everything happens on your device. Backups to a cloud folder go up whenever that provider’s own app next finds the internet.</p></details>
+      <details><summary>Does it sync between my Mac and iPhone?</summary><p>The same file opens on each through iCloud Drive or Files. If two devices changed it at once, you get both drafts and the final word. Rozdział doesn’t merge prose for you, and nobody else can type in your margins.</p></details>
+      <details><summary>Is there AI in it?</summary><p>No. Rozdział won’t write your novel. It would only want the credit.</p></details>
+      <details><summary>Will it slow down on a long novel?</summary><p>It’s built on an 8 GB Mac mini and tested on manuscripts of 1.2 million words, which is longer than the Bible.</p></details>
+    </div>
+  </section>
+
+  <section class="release" id="release" aria-labelledby="release-title">
+    <div class="wrap release-inner">
+      <p class="label"><span class="dot" aria-hidden="true"></span>In development · Mac, iPhone and iPad</p>
+      <h2 id="release-title">For the book<br>only <em>you</em> can write.</h2>
+      <p>We’ll say so here when it’s ready. Until then, keep writing.</p>
+      <img class="release-mark" src="assets/mark.svg" alt="" aria-hidden="true">
     </div>
   </section>
 </main>
 
 <footer class="site-footer wrap">
   <a class="brand" href="/"><img src="assets/app-icon-512.png" alt="" width="24" height="24"><span>Rozdział</span></a>
-  <p>Sample text from Oscar Wilde, <cite>The Canterville Ghost</cite>, via <a href="https://www.gutenberg.org/ebooks/14522">Project Gutenberg</a>.</p>
+  <p>Sample text from Oscar Wilde, <cite>The Canterville Ghost</cite>, by way of <a href="https://www.gutenberg.org/ebooks/14522">Project Gutenberg</a>.</p>
 </footer>
 </body>
 </html>
