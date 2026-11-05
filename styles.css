@@ -390,3 +390,16 @@ h2:has(+ .sub) { margin-bottom: var(--s4) !important; }
 .details { overflow-x: clip; padding-inline: 2px; }
 .footer-brand { display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap; }
 .footer-brand .name-note { margin: 0; font-size: 12px; }
+
+/* Features open in place, like the FAQ. */
+.feature-list { align-items: stretch; }
+.feature-list li { padding: 0; }
+.feature-list summary { list-style: none; cursor: pointer; display: flex; align-items: baseline; gap: var(--s3); padding: var(--s4) var(--s4) var(--s4) 0; }
+.feature-list summary::-webkit-details-marker { display: none; }
+.feature-list summary::after { content: ""; margin-left: auto; width: 6px; height: 6px; flex: none; align-self: center; border: solid var(--ink-2); border-width: 0 1.4px 1.4px 0; transform: translateY(-2px) rotate(45deg); transition: transform .15s; }
+.feature-list details[open] summary::after { transform: translateY(1px) rotate(-135deg); }
+.feature-list summary:hover b { color: var(--accent); }
+.feature-list details p { font-size: 14px; color: var(--ink-2); padding: 0 var(--s5) var(--s4) 0; max-width: 34em; }
+.feature-list { column-gap: var(--s6); }
+.feature-list summary { padding-right: 0; }
+.feature-list details p { padding-right: 0; }
