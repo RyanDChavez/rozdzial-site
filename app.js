@@ -1,70 +1,161 @@
-const scenes = {
-  'low-tide': { title: 'Low Tide', status: 'Done', location: 'Harbour Office', count: 194, paragraphs: [
-    'The tide clock in the harbour office had not missed a minute in forty years, so when Mara Quill unlocked the door on Monday and found its hands resting at twenty past four, she stood in the doorway for a long moment with the key still in her fingers.',
-    'Outside, the boats leaned in the mud like tired animals. The water was a long way out. Nothing in the room was broken. The kettle was where she had left it, the charts were rolled, the window latched.',
-    'Only the clock had stopped, and the brass pendulum hung as still as a plumb line.'
-  ] },
-  ledger: { title: 'The Ledger Is Gone', status: 'Revised', location: 'Harbour Office', count: 167, paragraphs: [
-    'It took her until nine o’clock to notice the gap on the shelf. The tide ledger, green cloth and cracked at the spine, had stood between the almanacs every day of her working life. Every high water since 1911 was written in it, in six different hands.',
-    'Mara searched the drawers, the coal box, the space behind the stove. She found a sixpence, a moth, and a photograph of the old harbourmaster holding a fish. She did not find the ledger.',
-    'Nobody steals a book of tides, she told herself. There is nothing in it but numbers.'
-  ] },
-  edith: { title: 'Tea with Edith', status: 'Revised', location: 'Edith’s cottage', count: 174, paragraphs: [
-    'Edith Sayle poured the tea before Mara had finished her first sentence, as if she had been expecting the visit. Her cottage smelled of tar soap and geraniums, and a barometer ticked on the wall beside the door.',
-    '“Ledgers go missing,” Edith said. “Paper walks. When I was harbourmaster, the 1932 volume turned up in the vicar’s greenhouse.” She smiled at the barometer rather than at Mara, and her cup did not quite reach her mouth.',
-    'Mara asked about the keeper. Edith set the cup down.'
-  ] }
-};
-let activeScene = 'low-tide';
-const tabs = [...document.querySelectorAll('[role="tab"]')];
-function setMode(mode, focus = false) {
-  tabs.forEach(tab => {
-    const active = tab.dataset.mode === mode;
-    tab.setAttribute('aria-selected', String(active));
-    tab.tabIndex = active ? 0 : -1;
-    document.getElementById(tab.getAttribute('aria-controls')).hidden = !active;
-    if (active && focus) tab.focus();
+// The interactive preview: a drawing of the Mac app's Scene, Board and Manuscript pages, filled with window.SAMPLE.
+(() => {
+  const S = window.SAMPLE;
+  if (!S) return;
+  const $ = (sel) => document.querySelector(sel);
+  const el = (tag, cls, text) => {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text != null) node.textContent = text;
+    return node;
+  };
+  const fmt = (n) => n.toLocaleString('en-US');
+  const swatch = (node, i) => { node.style.setProperty('--sw', `var(--c${i})`); node.style.setProperty('--sl', `var(--l${i})`); return node; };
+  const skip = new Set(['Sir', 'Mrs.', 'Mr.', 'Lord', 'The', 'de']);
+  const initial = (name) => (name.split(' ').find((w) => !skip.has(w)) || name)[0];
+  const avatar = (c) => { const a = swatch(el('span', 'avatar', initial(c.name)), c.color); a.setAttribute('aria-hidden', 'true'); return a; };
+
+  // A paragraph, with the sample's one comment highlighted where it falls.
+  const paragraph = (text, cls, comments = true) => {
+    const p = el('p', cls);
+    const q = S.comment.quote, at = comments ? text.indexOf(q) : -1;
+    if (at < 0) { p.textContent = text; return p; }
+    const mark = el('mark', null, q);
+    mark.addEventListener('click', () => setCommentActive(true));
+    p.append(text.slice(0, at), mark, text.slice(at + q.length));
+    return p;
+  };
+
+  let current = S.scenes[0].id;
+  let note = $('#preview-note');
+
+  // Sidebar
+  const sbScenes = $('#sb-scenes');
+  S.scenes.forEach((scene) => {
+    const row = el('button', 'sb-row sb-scene');
+    row.dataset.scene = scene.id;
+    row.append(el('span', null, scene.title));
+    const dot = el('span', 'sdot'); dot.title = 'Done';
+    row.append(dot);
+    row.addEventListener('click', () => openScene(scene.id));
+    sbScenes.append(row);
   });
-  document.getElementById('demo-instruction').textContent = {
-    write: 'Choose a scene in the sidebar. Make yourself at home.',
-    plan: 'Step back and see your chapters and scenes together.',
-    revise: 'A note for later. A version to come back to.'
-  }[mode];
-  document.getElementById('footer-caption').textContent = mode === 'write'
-    ? `Scene ${scenes[activeScene].count} · Today 412 / 1,250`
-    : mode === 'plan' ? 'Your story, in order. Room to rearrange.' : 'A draft can change. A saved version stays.';
-}
-tabs.forEach((tab, index) => {
-  tab.addEventListener('click', () => setMode(tab.dataset.mode));
-  tab.addEventListener('keydown', event => {
-    let next;
-    if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
-    if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
-    if (event.key === 'Home') next = 0;
-    if (event.key === 'End') next = tabs.length - 1;
-    if (next !== undefined) { event.preventDefault(); setMode(tabs[next].dataset.mode, true); }
-  });
-});
-function showScene(key) {
-  activeScene = key;
-  const scene = scenes[key];
-  document.getElementById('scene-title').textContent = scene.title;
-  document.getElementById('scene-status').textContent = scene.status;
-  document.getElementById('scene-status').style.background = scene.status === 'Done' ? '#e4e9da' : '#e0e5e9';
-  document.getElementById('scene-status').style.color = scene.status === 'Done' ? '#526849' : '#5a6c7d';
-  document.getElementById('scene-location').textContent = scene.location;
-  const manuscript = document.getElementById('scene-text');
-  manuscript.replaceChildren(...scene.paragraphs.map(text => {
-    const paragraph = document.createElement('p');
-    paragraph.textContent = text;
-    return paragraph;
+
+  function setCommentActive(on) {
+    document.querySelectorAll('#view-scene mark, .comment').forEach((n) => n.classList.toggle('active', on));
+  }
+
+  function openScene(id) {
+    current = id;
+    const scene = S.scenes.find((s) => s.id === id);
+    $('#scene-title').textContent = scene.title;
+    $('#scene-synopsis').textContent = scene.synopsis;
+    $('#scene-chars').replaceChildren(...scene.chars.map((i) => {
+      const c = S.characters[i];
+      const chip = el('span', 'chip'); chip.title = c.role;
+      chip.append(avatar(c), c.name);
+      return chip;
+    }));
+    $('#scene-arcs').replaceChildren(...scene.arcs.map((i) => swatch(el('span', 'chip tag', S.arcs[i].name), S.arcs[i].color)));
+    $('#scene-text').replaceChildren(...scene.paragraphs.map((t) => paragraph(t)));
+    $('#scene-count').textContent = `Scene ${fmt(scene.words)}  ·  Chapter 1,492`;
+    $('#version-words').textContent = `${fmt(scene.words)} words`;
+
+    const comments = $('#comments');
+    if (S.comment.scene === id) {
+      const card = el('button', 'comment');
+      card.append(el('q', null, S.comment.quote), S.comment.text);
+      card.addEventListener('click', () => {
+        setCommentActive(true);
+        $('#view-scene mark')?.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      });
+      comments.replaceChildren(card);
+    } else {
+      comments.replaceChildren(el('p', 'no-comments', 'No comments yet. Select some text to add one.'));
+    }
+    document.querySelectorAll('.sb-scene').forEach((r) => r.setAttribute('aria-current', String(r.dataset.scene === id)));
+    $('#view-scene .scroll').scrollTop = 0;
+    setView('scene');
+  }
+
+  // Board, colored by arc.
+  $('#board-cards').append(...S.scenes.map((scene) => {
+    const card = swatch(el('button', 'card'), S.arcs[scene.arcs[0]].color);
+    card.append(el('h5', null, scene.title), el('p', null, scene.synopsis));
+    const foot = el('div', 'card-foot');
+    scene.chars.slice(0, 4).forEach((i) => foot.append(avatar(S.characters[i])));
+    if (scene.chars.length > 4) foot.append(el('span', null, ` +${scene.chars.length - 4}`));
+    const meta = el('span', 'meta');
+    if (S.comment.scene === scene.id) meta.append(el('span', null, '1 comment'));
+    meta.append(el('span', null, `${fmt(scene.words)} words`));
+    foot.append(meta);
+    card.append(foot);
+    card.setAttribute('aria-label', `${scene.title}, done, ${scene.words} words. Open scene.`);
+    card.addEventListener('click', () => openScene(scene.id));
+    return card;
   }));
-  document.querySelectorAll('[data-scene]').forEach(button => {
-    const selected = button.dataset.scene === key;
-    button.classList.toggle('selected', selected);
-    button.setAttribute('aria-pressed', String(selected));
+
+  // Manuscript: typeset as a book. No indent on a scene's first paragraph, a centered asterism between scenes.
+  const book = $('#book'), rail = $('#rail-scenes');
+  const label = el('p', 'ch-label', 'CHAPTER ONE'); label.id = 'book-ch';
+  book.append(label);
+  S.scenes.forEach((scene, si) => {
+    if (si) book.append(el('p', 'break', '⁂'));
+    scene.paragraphs.forEach((t, pi) => {
+      const p = paragraph(t, pi ? null : 'first', false);
+      if (!pi) { p.id = `book-${scene.id}`; p.dataset.scene = scene.id; }
+      book.append(p);
+    });
+    const link = el('a', 'sub', scene.title);
+    link.href = `#book-${scene.id}`; link.dataset.target = `book-${scene.id}`;
+    rail.append(link);
   });
-  setMode('write');
-}
-document.querySelectorAll('[data-scene]').forEach(button => button.addEventListener('click', () => showScene(button.dataset.scene)));
-showScene(activeScene);
+  const bookScroll = $('#book-scroll');
+  const railLinks = [...document.querySelectorAll('.rail a')];
+  railLinks.forEach((a) => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.getElementById(a.dataset.target);
+    bookScroll.scrollTo({ top: target.offsetTop - 24, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }));
+  const spy = () => {
+    const y = bookScroll.scrollTop + 60;
+    let on = railLinks[0];
+    railLinks.forEach((a) => { if (document.getElementById(a.dataset.target).offsetTop <= y) on = a; });
+    railLinks.forEach((a) => a.classList.toggle('on', a === on || (a.classList.contains('rail-ch'))));
+  };
+  bookScroll.addEventListener('scroll', spy, { passive: true });
+
+  // Page tabs
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const notes = {
+    scene: 'Pick a scene in the sidebar, or click the highlighted phrase to find its comment.',
+    board: 'Each chapter is a column. Click a card to open its scene.',
+    book: 'The whole draft, set as a book. The contents rail follows along.',
+  };
+  function setView(view, focus) {
+    tabs.forEach((t) => {
+      const on = t.dataset.view === view;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      if (on && focus) t.focus();
+    });
+    note.textContent = notes[view];
+    if (view === 'book') spy();
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => setView(t.dataset.view));
+    t.addEventListener('keydown', (e) => {
+      const n = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (n === undefined) return;
+      e.preventDefault();
+      setView(tabs[(n + tabs.length) % tabs.length].dataset.view, true);
+    });
+  });
+
+  openScene(current);
+  note.textContent = 'Pick a scene in the sidebar, or step back to the board.';
+  // ?view=board or ?view=book opens that page directly.
+  const start = new URLSearchParams(location.search).get('view');
+  if (start === 'board' || start === 'book') setView(start);
+})();

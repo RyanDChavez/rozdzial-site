@@ -3,63 +3,234 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4efe3">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FBF9F3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#2E2A25" media="(prefers-color-scheme: dark)">
   <title>Rozdział — A place for your novel</title>
-  <meta name="description" content="A quiet home for writing your novel on Mac. Find your structure, know your characters, and move your story forward, chapter by chapter.">
+  <meta name="description" content="Rozdział is a writing app for novels on Mac, iPhone and iPad. Write in scenes, plan on a board, and read your draft back as a book. In development.">
   <meta property="og:title" content="Rozdział — A place for your novel">
-  <meta property="og:description" content="Write, plan, and revise your novel in one thoughtful Mac app. In development.">
+  <meta property="og:description" content="Write in scenes, plan on a board, and read your draft back as a book. For Mac, iPhone and iPad. In development.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rozdzial.com/">
+  <meta property="og:image" content="https://rozdzial.com/assets/app-icon-512.png">
   <link rel="icon" href="assets/app-icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/app-icon-512.png">
   <link rel="stylesheet" href="styles.css">
+  <script src="sample.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+
 <header class="site-header wrap">
-  <a class="brand" href="#" aria-label="Rozdział home"><span class="brand-mark"><img src="assets/mark.svg" alt="" width="29" height="25"></span><span>Rozdział</span></a>
-  <nav aria-label="Main navigation"><a href="#studio">The app</a><a href="#approach">The approach</a><a class="nav-status" href="#release"><span class="status-dot"></span> In development <span aria-hidden="true">↗</span></a></nav>
+  <a class="brand" href="/" aria-label="Rozdział home">
+    <img src="assets/app-icon-512.png" alt="" width="32" height="32">
+    <span>Rozdział</span>
+  </a>
+  <nav aria-label="Main">
+    <a href="#features">Features</a>
+    <a href="#mobile">iPhone &amp; iPad</a>
+    <a href="#questions">Questions</a>
+  </nav>
 </header>
+
 <main id="main">
   <section class="hero wrap" aria-labelledby="hero-title">
-    <div class="eyebrow"><span class="short-rule"></span> A writing app for Mac</div>
-    <h1 id="hero-title">Your novel,<br><em>chapter by chapter.</em></h1>
-    <div class="hero-bottom"><p>A quiet place to put the words down.<br>A clear way to see the story taking shape.</p><a class="button" href="#studio">Preview the app <span aria-hidden="true">↘</span></a></div>
-    <p class="name-note"><span lang="pl">Rozdział</span><span class="name-pronunciation">Roughly <strong>ROZ</strong>-jow</span><span>Polish for “chapter.”</span></p>
-    <span class="hero-annotation" aria-hidden="true">Every story starts somewhere.</span>
+    <p class="label"><span class="dot" aria-hidden="true"></span>In development · Mac, iPhone and iPad</p>
+    <h1 id="hero-title">A place for your novel.</h1>
+    <p class="lede">Write in scenes, plan on a board, and read the draft back as a book. Your manuscript, characters and notes live together in one file that belongs to you.</p>
+    <p class="name-note"><span lang="pl">Rozdział</span> is Polish for “chapter.” Say it <strong>ROZ</strong>-jow.</p>
   </section>
 
-  <section class="studio-section" id="studio" aria-labelledby="studio-title">
-    <div class="studio-heading wrap"><h2 id="studio-title" class="eyebrow">One story. Room for every part.</h2><div class="mode-tabs" role="tablist" aria-label="Explore the app"><button id="tab-write" role="tab" aria-selected="true" aria-controls="panel-write" data-mode="write">01 <span>Write</span></button><button id="tab-plan" role="tab" aria-selected="false" aria-controls="panel-plan" tabindex="-1" data-mode="plan">02 <span>Plan</span></button><button id="tab-revise" role="tab" aria-selected="false" aria-controls="panel-revise" tabindex="-1" data-mode="revise">03 <span>Revise</span></button></div></div>
-    <div class="app-window wrap">
-      <div class="window-toolbar"><div class="traffic-lights" aria-hidden="true"><i></i><i></i><i></i></div><div class="toolbar-navigation" aria-hidden="true">▤ &nbsp; ‹ &nbsp; ›</div><span class="toolbar-title">The Tide Clock</span><span aria-hidden="true">•••</span></div>
-      <div class="app-layout">
-        <aside class="app-sidebar" aria-label="Example novel scenes"><div class="novel-name">The Tide Clock <span aria-hidden="true">⌄</span></div><div class="sample-search" aria-hidden="true">⌕ &nbsp; Search <span>⌘K</span></div><p class="sidebar-label">MANUSCRIPT</p><div class="chapter-row">⌄ &nbsp; <span>1</span> The Stopped Clock</div><button class="scene-row selected" data-scene="low-tide" aria-pressed="true">Low Tide <span class="scene-dot done"></span></button><button class="scene-row" data-scene="ledger" aria-pressed="false">The Ledger Is Gone <span class="scene-dot revised"></span></button><button class="scene-row" data-scene="edith" aria-pressed="false">Tea with Edith <span class="scene-dot revised"></span></button><div class="chapter-row muted">› &nbsp; <span>2</span> The Keeper</div><div class="chapter-row muted">› &nbsp; <span>3</span> High Water</div><p class="sidebar-label story-label">STORY</p><div class="story-row"><span aria-hidden="true">♙</span> Characters <span class="sidebar-count">3</span></div><div class="story-row"><span aria-hidden="true">⌁</span> Arcs <span class="sidebar-count">3</span></div><div class="story-row"><span aria-hidden="true">⌖</span> Locations <span class="sidebar-count">2</span></div><div class="story-row"><span aria-hidden="true">▧</span> Notes</div><div class="sidebar-progress"><span class="mini-ring" aria-hidden="true"></span> Progress</div></aside>
-        <div class="app-main">
-          <div id="panel-write" role="tabpanel" aria-labelledby="tab-write" class="app-panel">
-            <div class="breadcrumb">The Tide Clock <span>/</span> 1 · The Stopped Clock</div>
-            <div class="scene-content"><div class="scene-heading"><h3 id="scene-title">Low Tide</h3><span id="scene-status" class="status-pill">Done</span></div><div class="scene-properties"><span>Characters</span><span class="character-chip"><i>M</i> Mara Quill</span></div><div class="scene-properties"><span>Location</span><span id="scene-location">Harbour Office</span></div><div class="manuscript" id="scene-text"></div><span class="caret" aria-hidden="true"></span></div>
-          </div>
-          <div id="panel-plan" role="tabpanel" aria-labelledby="tab-plan" class="app-panel" hidden><div class="breadcrumb">The Tide Clock <span>/</span> Board</div><div class="board-content"><div class="board-title"><h3>The Tide Clock</h3><span class="board-view">Board <span aria-hidden="true">⌄</span></span></div><div class="board-columns"><div class="board-column"><h4><span>1</span> The Stopped Clock</h4><p class="column-meta">3 scenes</p><article class="board-card done-card"><span class="card-status">DONE</span><h5>Low Tide</h5><p>Mara finds the harbour’s tide clock stopped at twenty past four.</p><div class="card-footer"><span class="avatar">M</span> Harbour Office</div></article><article class="board-card"><span class="card-status">REVISED</span><h5>The Ledger Is Gone</h5><p>A gap on the shelf. A book of tides that nobody would want to steal.</p><div class="card-footer"><span class="avatar">M</span> The missing ledger</div></article><article class="board-card"><span class="card-status">REVISED</span><h5>Tea with Edith</h5><p>The retired harbourmaster is a little too calm.</p><div class="card-footer"><span class="avatar">M</span><span class="avatar violet">E</span></div></article></div><div class="board-column"><h4><span>2</span> The Keeper</h4><p class="column-meta">3 scenes</p><article class="board-card draft-card"><span class="card-status">DRAFT</span><h5>Up the Lighthouse</h5><p>One hundred and twelve steps. A keeper who knows more than he says.</p><div class="card-footer"><span class="avatar">M</span><span class="avatar blue">T</span> Lighthouse</div></article><article class="board-card draft-card"><span class="card-status">DRAFT</span><h5>Ink on the Stairs</h5><p>Green threads and a drop of ink on the sixty-first step.</p><div class="card-footer"><span class="avatar">M</span><span class="avatar blue">T</span></div></article></div></div></div></div>
-          <div id="panel-revise" role="tabpanel" aria-labelledby="tab-revise" class="app-panel" hidden><div class="breadcrumb">The Tide Clock <span>/</span> 1 · The Stopped Clock</div><div class="revision-layout"><div class="revision-page"><span class="small-label">A SECOND LOOK</span><h3>Low Tide</h3><p>The tide clock in the harbour office had <mark>not missed a minute in forty years</mark>, so when Mara Quill unlocked the door on Monday and found its hands resting at twenty past four, she stood in the doorway for a long moment with the key still in her fingers.</p><p>Outside, the boats leaned in the mud like tired animals. The water was a long way out.</p></div><aside class="revision-aside"><div class="comment-example"><span class="small-label">COMMENT</span><p>“not missed a minute in forty years”</p><strong>A promise to the reader. Come back to this when the clock starts again.</strong><span class="comment-tag">A note for the next draft</span></div><div class="version-example"><span class="small-label">VERSION HISTORY</span><div><b>v2</b> Current draft</div><div><b>v1</b> First draft <span class="version-saved">Saved</span></div></div></aside></div></div>
-          <div class="editor-footer"><span id="footer-caption">Scene 194 <span class="footer-separator">·</span> Today 412 / 1,250</span><span class="footer-focus">Focus <span aria-hidden="true">⌗</span></span></div>
+  <section class="preview" aria-labelledby="preview-title">
+    <div class="wrap">
+      <div class="preview-bar">
+        <h2 id="preview-title" class="label">Try the sample novel</h2>
+        <div class="views" role="tablist" aria-label="Page">
+          <button role="tab" id="tab-scene" aria-controls="view-scene" aria-selected="true" data-view="scene">Scene</button>
+          <button role="tab" id="tab-board" aria-controls="view-board" aria-selected="false" tabindex="-1" data-view="board">Board</button>
+          <button role="tab" id="tab-book" aria-controls="view-book" aria-selected="false" tabindex="-1" data-view="book">Manuscript</button>
         </div>
       </div>
+
+      <div class="window">
+        <div class="titlebar" aria-hidden="true">
+          <span class="lights"><i></i><i></i><i></i></span>
+          <span class="tb-icons"><svg viewBox="0 0 16 16"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M6 2.5v11"/></svg><svg viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"/></svg><svg viewBox="0 0 16 16"><path d="m6 3 5 5-5 5"/></svg></span>
+          <span class="tb-more"><svg viewBox="0 0 16 16"><circle cx="3" cy="8" r="1.2"/><circle cx="8" cy="8" r="1.2"/><circle cx="13" cy="8" r="1.2"/></svg></span>
+        </div>
+        <div class="win-body">
+          <aside class="sidebar" aria-label="Sample novel outline">
+            <div class="sb-panel">
+              <div class="sb-novel"><span class="serif">The Canterville Ghost — Excerpt</span><span class="chev open" aria-hidden="true"></span></div>
+              <div class="sb-search" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>Search<kbd>⌘K</kbd></div>
+              <p class="sb-label">Manuscript</p>
+              <div class="sb-row sb-chapter"><span class="chev open" aria-hidden="true"></span><span class="num">1</span>Chapter 1</div>
+              <div id="sb-scenes"></div>
+              <p class="sb-label">Story</p>
+              <div class="sb-row sb-story"><span class="chev" aria-hidden="true"></span>Characters<span class="count">9</span></div>
+              <div class="sb-row sb-story"><span class="chev" aria-hidden="true"></span>Arcs<span class="count">2</span></div>
+              <div class="sb-row sb-story"><span class="chev" aria-hidden="true"></span>Locations<span class="count">1</span></div>
+              <div class="sb-row sb-story"><span class="chev" aria-hidden="true"></span>Notes<span class="count">2</span></div>
+              <div class="sb-row sb-progress"><span class="ring" aria-hidden="true"></span>Progress</div>
+            </div>
+          </aside>
+
+          <div class="page-col">
+            <div id="view-scene" role="tabpanel" aria-labelledby="tab-scene" class="view">
+              <div class="crumb">The Canterville Ghost — Excerpt <span>/</span> <b>Chapter 1</b></div>
+              <div class="scroll">
+                <div class="scene-wrap">
+                  <article class="page">
+                    <h3 class="page-title" id="scene-title"></h3>
+                    <dl class="props">
+                      <div><dt>Status</dt><dd><span class="status"><i></i>Done</span></dd></div>
+                      <div><dt>Characters</dt><dd id="scene-chars" class="chips"></dd></div>
+                      <div><dt>Arcs</dt><dd id="scene-arcs" class="chips"></dd></div>
+                      <div><dt>Location</dt><dd>Canterville Chase</dd></div>
+                      <div><dt>Synopsis</dt><dd id="scene-synopsis" class="muted"></dd></div>
+                    </dl>
+                    <div class="manuscript" id="scene-text"></div>
+                  </article>
+                  <aside class="inspector" aria-label="Scene inspector">
+                    <section>
+                      <h4 class="sb-label">Comments</h4>
+                      <div id="comments"></div>
+                    </section>
+                    <section>
+                      <h4 class="sb-label">Versions</h4>
+                      <div class="version"><b>v1</b><span>Source excerpt — Oscar Wilde (1906 edition)</span><small id="version-words"></small></div>
+                    </section>
+                  </aside>
+                </div>
+              </div>
+              <div class="footer-bar"><span id="scene-count"></span><span class="muted">Last backup: 12 min ago</span><span class="focus">Focus</span></div>
+            </div>
+
+            <div id="view-board" role="tabpanel" aria-labelledby="tab-board" class="view" hidden>
+              <div class="scroll">
+                <div class="board">
+                  <h3 class="page-title">The Canterville Ghost — Excerpt</h3>
+                  <div class="metrics">
+                    <div class="metric"><span class="sb-label">Words</span><b>1,492</b><span class="bar"><i></i></span></div>
+                    <div class="metric"><span class="sb-label">Scenes by status</span><b>3 done</b><span class="bar done"><i></i></span></div>
+                    <div class="metric"><span class="sb-label">Open comments</span><b>1</b><span class="muted small">Buying a Haunted House</span></div>
+                  </div>
+                  <div class="controls" aria-hidden="true"><span>Color by <b>Arc</b><span class="chev open" aria-hidden="true"></span></span><span>Filter<span class="chev open" aria-hidden="true"></span></span></div>
+                  <div class="columns">
+                    <div class="column">
+                      <h4><span class="num">1</span>Chapter 1</h4>
+                      <p class="muted small">3 scenes · 1,492 words</p>
+                      <div id="board-cards"></div>
+                    </div>
+                    <div class="column column-empty" aria-hidden="true"><span>+ Add chapter</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="view-book" role="tabpanel" aria-labelledby="tab-book" class="view" hidden>
+              <div class="book-wrap">
+                <div class="scroll" id="book-scroll" tabindex="0" aria-label="The whole sample, typeset as a book">
+                  <div class="book" id="book"></div>
+                </div>
+                <nav class="rail" aria-label="Contents">
+                  <span class="sb-label">Contents</span>
+                  <a class="rail-ch" href="#book-ch" data-target="book-ch"><span class="num">1</span>Chapter 1</a>
+                  <div id="rail-scenes"></div>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="preview-note" id="preview-note">Pick a scene in the sidebar, or step back to the board.</p>
+      <p class="credit">This is the sample novel that comes with Rozdział: the opening of Oscar Wilde’s <cite>The Canterville Ghost</cite> (1906), which is in the public domain. The preview is a drawing of the Mac app that runs in your browser.</p>
     </div>
-    <div class="demo-caption wrap"><span><span class="status-dot"></span> Interactive, illustrative app preview</span><p id="demo-instruction">Choose a scene in the sidebar. Make yourself at home.</p></div>
   </section>
 
-  <div class="product-facts wrap" aria-label="Product details"><span><span aria-hidden="true">⌘</span> Made for Mac</span><span><span aria-hidden="true">◌</span> Write offline</span><span><span aria-hidden="true">▱</span> Keep your own files</span></div>
+  <section class="features wrap" id="features" aria-labelledby="features-title">
+    <div class="section-head">
+      <h2 id="features-title">One window for the whole book.</h2>
+      <p>A sidebar of chapters and scenes on the left, and a page for whatever you pick on the right. Every control sits next to the thing it changes.</p>
+    </div>
 
-  <section class="approach wrap" id="approach" aria-labelledby="approach-title"><div class="section-kicker"><span>THE APPROACH</span><span>Less to manage. More to imagine.</span></div><div class="approach-heading"><h2 id="approach-title">A novel is a big thing.<br><em>Start with one scene.</em></h2><p>You don’t have to hold the whole book in your head. Rozdział gives the words, the people, and the loose ends a place to live—so you can get back to writing.</p></div><div class="principles"><article><span class="principle-number">01 /</span><h3>Follow the thread.</h3><p>Chapters and scenes give your manuscript its shape. Step into one scene to write, or out to the board to see how the pieces fit.</p></article><article><span class="principle-number">02 /</span><h3>Know your world.</h3><p>Keep characters, locations, story arcs, and research alongside the manuscript. The small details have a home of their own.</p></article><article><span class="principle-number">03 /</span><h3>Let the draft change.</h3><p>Leave yourself a comment. Save a version before a big revision. Explore another way through the scene, with a way back.</p></article></div></section>
+    <div class="feature-groups">
+      <div class="group">
+        <h3 class="label">Write</h3>
+        <dl>
+          <dt>Book paragraphs as you type</dt><dd>Iowan Old Style by default, first-line indents and a measure of about seventy characters. Focus mode hides everything but the text.</dd>
+          <dt>Read it back as a book</dt><dd>The Manuscript view sets the whole novel like a printed book, with chapter openings, ⁂ between scenes and a contents rail that follows along.</dd>
+          <dt>Find across everything</dt><dd>Search and replace across every scene, note and comment in the novel. Replace All undoes in one step.</dd>
+        </dl>
+      </div>
+      <div class="group">
+        <h3 class="label">Plan</h3>
+        <dl>
+          <dt>A board of chapters</dt><dd>Each chapter is a column of scene cards. Color them by status, arc or character, and filter to what you’re working on.</dd>
+          <dt>Characters that find themselves</dt><dd>Write a character’s name, or one of their other names, and the scene is tagged. Remove the tag and it stays removed.</dd>
+          <dt>Notes with pictures</dt><dd>Research, maps and photographs live in notes beside the manuscript. Characters and locations get note pages of their own.</dd>
+        </dl>
+      </div>
+      <div class="group">
+        <h3 class="label">Revise</h3>
+        <dl>
+          <dt>Comments on the text</dt><dd>Select a phrase and leave yourself a note. Comments stay anchored to their words as you edit around them.</dd>
+          <dt>Versions you choose to keep</dt><dd>Save a version before a big change, compare it word by word, and restore it. Restoring saves the current draft first.</dd>
+          <dt>A writing plan that fits</dt><dd>A daily target, a deadline pace, or none at all. Counts are net, so a day spent cutting reads as editing, not as a miss.</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
 
-  <section class="details-section"><div class="details-layout wrap"><div class="details-art" aria-label="Illustration of character notes"><div class="notes-paper"><span class="paper-label">CHARACTER NOTES / 01</span><div class="character-profile"><span class="large-avatar">M</span><div><h3>Mara Quill</h3><p>Protagonist · Harbour clerk</p></div></div><div class="note-line"><span>Also called</span><b>Mara</b></div><div class="note-line"><span>Appears in</span><b>Low Tide · The Ledger Is Gone</b></div><div class="paper-rule"></div><p class="hand-note">She knows the harbour by heart.<br>People are another matter.</p><div class="paper-foot">A place for the things between the lines.</div></div><span class="art-index" aria-hidden="true">M.</span></div><div class="details-copy"><span class="eyebrow">BEYOND THE MANUSCRIPT</span><h2>For the details<br>that make it <em>yours.</em></h2><p>A character’s other name. A map of the town. The note you don’t want to lose. Keep the world of your novel close to the page.</p><ul><li>Characters, arcs, and locations linked to scenes</li><li>Notes for research, ideas, and images</li><li>Search across your manuscript, notes, and comments</li></ul></div></div></section>
+  <section class="mobile" id="mobile" aria-labelledby="mobile-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="mobile-title">Keep writing on iPhone and iPad.</h2>
+        <p>The same novel opens from Files and iCloud Drive. Write and revise scenes, check the outline, set a writing plan and go back to a saved version. If two devices both changed the book, Rozdział keeps both drafts and asks which one to continue.</p>
+      </div>
+      <figure class="shot-ipad">
+        <img src="assets/ipad-writing.jpg" width="1600" height="1112" loading="lazy" alt="Rozdział on iPad: the chapter outline on the left with three scenes, and the opening of Buying a Haunted House on the right.">
+      </figure>
+      <div class="shots-phone">
+        <figure><img src="assets/iphone-writing.jpg" width="750" height="1334" loading="lazy" alt="Rozdział on iPhone, showing the scene Buying a Haunted House."><figcaption>A scene, edge to edge.</figcaption></figure>
+        <figure><img src="assets/iphone-plan.jpg" width="750" height="1334" loading="lazy" alt="The writing plan sheet on iPhone, with the daily target set to Off."><figcaption>A plan, or no plan.</figcaption></figure>
+        <figure><img src="assets/iphone-review-dark.jpg" width="750" height="1334" loading="lazy" alt="Choosing between drafts from two devices on iPhone, in dark mode."><figcaption>Two drafts, nothing lost.</figcaption></figure>
+      </div>
+      <p class="credit">Screens from the current development build.</p>
+    </div>
+  </section>
 
-  <section class="quiet-section wrap"><div class="quiet-intro"><span class="eyebrow">A LITTLE ENCOURAGEMENT</span><h2>Small steps.<br><em>Long stories.</em></h2></div><div class="quiet-body"><p>Some days are for getting the words down. Some are for finding the right ones. Set a word goal, start a writing session, and find a rhythm that belongs to you.</p><div class="progress-example"><span>Today’s writing</span><div><b>412</b><span> / 1,250 words</span></div><div class="progress-track"><i></i></div><p>An illustrative daily goal</p></div></div></section>
+  <section class="files wrap" aria-labelledby="files-title">
+    <div class="section-head">
+      <h2 id="files-title">Your book stays yours.</h2>
+      <p>No accounts and no analytics. The app makes no network calls of its own.</p>
+    </div>
+    <div class="file-grid">
+      <div><h3>A document on your disk</h3><p>Each novel is one file you can move, copy and back up like any other.</p></div>
+      <div><h3>Backups where you want them</h3><p>Choose a Dropbox, Google Drive, OneDrive or iCloud Drive folder, and Rozdział saves a zipped copy there each hour you write. A local backup is always on.</p></div>
+      <div><h3>Bring a manuscript in</h3><p>Import Word, RTF, plain text or Markdown. Chapter headings and <code>***</code> breaks become chapters and scenes.</p></div>
+      <div><h3>Send it out</h3><p>Export to Word, RTF, PDF, Markdown or EPUB, typeset as a book or in standard manuscript format for submissions.</p></div>
+    </div>
+  </section>
 
-  <section class="faq-section wrap" aria-labelledby="faq-title"><div><span class="eyebrow">A FEW PRACTICAL THINGS</span><h2 id="faq-title">Before the<br>first chapter.</h2></div><div class="faq-list"><details id="the-name"><summary>What does Rozdział mean, and how do I say it?<span aria-hidden="true">+</span></summary><p><span lang="pl">Rozdział</span> is Polish for “chapter”—a fitting name for a place to write your novel. An English-friendly approximation is <strong>ROZ-jow</strong>: two syllables, with the stress on <strong>ROZ</strong>. The <strong>j</strong> is like the one in “jam,” and “jow” rhymes with “cow.” The Polish <span lang="pl">ł</span> sounds like an English <strong>w</strong>.</p></details><details><summary>What is Rozdział?<span aria-hidden="true">+</span></summary><p>Rozdział is a native Mac app for writing a novel, organized by chapters and scenes. It brings your manuscript, story planning, notes, and revisions into one place.</p></details><details><summary>Does it work offline?<span aria-hidden="true">+</span></summary><p>Yes. Writing and organizing your novel happen on your Mac. Optional cloud backups use a folder synced by your preferred cloud storage app, which needs a connection to upload.</p></details><details><summary>Can I bring an existing manuscript?<span aria-hidden="true">+</span></summary><p>The app supports importing Word documents, RTF, plain text, and Markdown, with chapter and scene splitting. You can export to Word, RTF, Markdown, PDF, and EPUB.</p></details><details><summary>Where does my writing live?<span aria-hidden="true">+</span></summary><p>Each novel is a document on your Mac. The app keeps local backups, and you can also choose a folder for additional backups. Cloud backup storage is supplied by the provider you choose.</p></details><details><summary>When can I try it?<span aria-hidden="true">+</span></summary><p>Rozdział is in development. Release details and a way to try the app will be shared here when they’re ready. The app requires macOS 15 or later.</p></details></div></section>
-
-  <section class="release-section" id="release"><div class="wrap release-inner"><div class="release-status"><span class="status-dot"></span> IN DEVELOPMENT · FOR MAC</div><h2>For the book<br>only <em>you</em> can write.</h2><p>We’re making room for your next chapter.</p><a href="#studio" class="button light-button">Explore the app <span aria-hidden="true">↗</span></a><span class="release-note">Release details coming soon. macOS 15+.</span><img class="release-mark" src="assets/mark.svg" alt="" aria-hidden="true"></div></section>
+  <section class="faq wrap" id="questions" aria-labelledby="faq-title">
+    <h2 id="faq-title">Questions</h2>
+    <div class="faq-list">
+      <details><summary>When can I try it?</summary><p>Rozdział is in development. A way to try it will be posted here when it’s ready. The Mac app needs macOS 15 or later, and the iPhone and iPad app needs iOS or iPadOS 17 or later.</p></details>
+      <details><summary>How do I say the name?</summary><p><span lang="pl">Rozdział</span> means “chapter” in Polish. In English it’s close to <strong>ROZ-jow</strong>: two syllables with the stress on the first, “j” as in “jam,” and “jow” rhyming with “cow.” The Polish <span lang="pl">ł</span> sounds like an English w.</p></details>
+      <details><summary>Does it work offline?</summary><p>Yes. Everything happens on your device. Backups to a cloud folder are uploaded by that provider’s own app when you’re online.</p></details>
+      <details><summary>Does it sync between my Mac and iPhone?</summary><p>The same file opens on each device through iCloud Drive or Files. Rozdział shows whether your latest changes have uploaded, and if two devices edited the book at once it keeps both drafts for you to choose between. It doesn’t merge prose automatically, and there’s no live collaboration.</p></details>
+      <details><summary>Is there AI in it?</summary><p>No. Rozdział doesn’t generate, rewrite or analyze your writing.</p></details>
+      <details><summary>Will it slow down on a long novel?</summary><p>It’s built on an 8 GB Mac mini and checked against manuscripts of up to 1.2 million words, longer than the Bible.</p></details>
+    </div>
+  </section>
 </main>
-<footer class="site-footer wrap"><a class="brand" href="#"><span class="brand-mark"><img src="assets/mark.svg" alt="" width="25" height="21"></span><span>Rozdział</span></a><p>A place for your novel.</p><a href="#main">Back to the beginning <span aria-hidden="true">↑</span></a></footer>
+
+<footer class="site-footer wrap">
+  <a class="brand" href="/"><img src="assets/app-icon-512.png" alt="" width="24" height="24"><span>Rozdział</span></a>
+  <p>Sample text from Oscar Wilde, <cite>The Canterville Ghost</cite>, via <a href="https://www.gutenberg.org/ebooks/14522">Project Gutenberg</a>.</p>
+</footer>
 </body>
 </html>
