@@ -388,3 +388,5 @@ h2:has(+ .sub) { margin-bottom: var(--s4) !important; }
   .feature-list li { padding-right: 0; }
 }
 .details { overflow-x: clip; padding-inline: 2px; }
+.footer-brand { display: flex; align-items: center; gap: var(--s4); flex-wrap: wrap; }
+.footer-brand .name-note { margin: 0; font-size: 12px; }
