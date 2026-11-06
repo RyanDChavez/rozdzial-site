@@ -128,7 +128,7 @@
   // Page tabs
   const tabs = [...document.querySelectorAll('[role="tab"]')];
   const notes = {
-    scene: 'Pick a scene. Click the highlighted phrase to see what the editor thought of it.',
+    scene: 'Pick a scene. Click the highlighted phrase to read the comment.',
     board: 'Each chapter is a column. Every card opens its scene.',
     book: 'The whole draft, set like a book. It reads better than you expect, or worse, which is just as useful.',
   };
@@ -154,7 +154,6 @@
   });
 
   openScene(current);
-  note.textContent = 'Make yourself at home. Mind the bloodstain.';
   // ?view=board or ?view=book opens that page directly.
   const start = new URLSearchParams(location.search).get('view');
   if (start === 'board' || start === 'book') setView(start);

@@ -140,6 +140,6 @@ window.SAMPLE = {
  "comment": {
   "scene": "buying",
   "quote": "the furniture and the ghost at a valuation",
-  "text": "Reading note: notice how Otis turns a supernatural warning into a purchase negotiation."
+  "text": "How does one underwrite a ghost?"
  }
 };
