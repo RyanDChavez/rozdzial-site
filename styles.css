@@ -441,3 +441,8 @@ h2:has(+ .sub) { margin-bottom: var(--s4) !important; }
 .feature-list { column-gap: var(--s6); }
 .feature-list summary { padding-right: 0; }
 .feature-list details p { padding-right: 0; }
+
+.privacy { max-width: 680px; padding: var(--s7) 0 var(--s9); }
+.privacy h1 { font-size: clamp(40px, 7vw, 72px); }
+.privacy h2 { font: 400 28px var(--title); margin-top: var(--s6); }
+.privacy p { margin-top: var(--s3); }
