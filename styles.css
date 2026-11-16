@@ -421,7 +421,8 @@ h2:has(+ .sub) { margin-bottom: var(--s4) !important; }
   .shots-phone { margin-top: var(--s6); }
 }
 @media (max-width: 600px) {
-  .hero h1 { font-size: clamp(40px, 12.8vw, 48px); }
+  /* "chapter by chapter." must fit on one line at any phone width. */
+  .hero h1 { font-size: clamp(36px, min(12.8vw, calc((100vw - 32px) / 7.3)), 48px); }
   .feature-list li { padding-right: 0; }
 }
 .details { overflow-x: clip; padding-inline: 2px; }
@@ -446,3 +447,15 @@ h2:has(+ .sub) { margin-bottom: var(--s4) !important; }
 .privacy h1 { font-size: clamp(40px, 7vw, 72px); }
 .privacy h2 { font: 400 28px var(--title); margin-top: var(--s6); }
 .privacy p { margin-top: var(--s3); }
+
+/* The headline retypes its word and phrase. A hidden copy of the widest text sets each slot's size, so typing never moves anything. */
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.swap { display: inline-grid; }
+.swap > span { grid-area: 1 / 1; white-space: nowrap; }
+.swap .ghost { visibility: hidden; }
+.swap .live { justify-self: start; border-radius: 3px; padding: 0 2px; margin: 0 -2px; }
+.swap .live.selected { background: color-mix(in srgb, var(--accent) 22%, transparent); transition: background-color .18s ease; }
+.caret { display: inline-block; position: relative; width: 0; height: 0; }
+.caret::before { content: ""; position: absolute; left: 3px; top: -.78em; height: .9em; width: 2px; background: var(--accent); opacity: 0; }
+.caret.on::before { opacity: 1; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }

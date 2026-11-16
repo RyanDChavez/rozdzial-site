@@ -1,3 +1,53 @@
+// The hero headline changes its word (select, replace) and its phrase (backspace, retype) in turn. A part that stays the same is left alone.
+(() => {
+  const slots = [...document.querySelectorAll('[data-swap]')];
+  if (slots.length !== 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const states = [['novel', 'chapter by chapter.'], ['play', 'act by act.'], ['novel', 'scene by scene.'], ['play', 'scene by scene.']];
+  // Waits, and holds still while the tab is hidden.
+  const wait = (ms) => new Promise((go) => setTimeout(() => {
+    if (!document.hidden) return go();
+    document.addEventListener('visibilitychange', function back() { document.removeEventListener('visibilitychange', back); go(); });
+  }, ms));
+  const type = async (node, text) => {
+    for (let i = 1; i <= text.length; i++) { node.nodeValue = text.slice(0, i); await wait(55 + Math.random() * 45); }
+  };
+  // Line one: the word is selected, then replaced.
+  const selectAndReplace = async (slot, text) => {
+    const [node, caret] = [slot.firstChild, slot.lastChild];
+    if (node.nodeValue === text) return;
+    slot.classList.add('selected');
+    await wait(650);
+    slot.classList.remove('selected');
+    node.nodeValue = '';
+    caret.classList.add('on');
+    await wait(220);
+    await type(node, text);
+    await wait(450);
+    caret.classList.remove('on');
+  };
+  // Line two: backspaced, then retyped.
+  const backspaceAndRetype = async (slot, text) => {
+    const [node, caret] = [slot.firstChild, slot.lastChild];
+    if (node.nodeValue === text) return;
+    caret.classList.add('on');
+    await wait(350);
+    while (node.nodeValue) { node.nodeValue = node.nodeValue.slice(0, -1); await wait(28); }
+    await wait(180);
+    await type(node, text);
+    await wait(500);
+    caret.classList.remove('on');
+  };
+  (async () => {
+    for (let at = 0; ; ) {
+      await wait(4800);
+      at = (at + 1) % states.length;
+      await selectAndReplace(slots[0], states[at][0]);
+      await wait(250);
+      await backspaceAndRetype(slots[1], states[at][1]);
+    }
+  })();
+})();
+
 // The interactive preview: a drawing of the Mac app's Scene, Board and Manuscript pages, filled with window.SAMPLE.
 (() => {
   const S = window.SAMPLE;
