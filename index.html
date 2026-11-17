@@ -15,9 +15,11 @@
   <meta property="og:image" content="https://rozdzial.com/assets/app-icon-512.png">
   <link rel="icon" href="assets/app-icon.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/app-icon-512.png">
-  <link rel="stylesheet" href="styles.css?v=hero-cycle">
-  <script src="sample.js?v=copy-rewrite" defer></script>
-  <script src="app.js?v=hero-cycle" defer></script>
+  <link rel="stylesheet" href="styles.css?v=play-demo">
+  <script src="sample.js?v=play-demo" defer></script>
+  <script src="sample-play.js?v=play-demo" defer></script>
+  <script src="script-layout.js?v=play-demo" defer></script>
+  <script src="app.js?v=play-demo" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -47,6 +49,10 @@
   <section class="preview" aria-label="App preview">
     <div class="wrap">
       <div class="preview-bar">
+        <div class="views" role="tablist" aria-label="Sample">
+          <button role="tab" id="tab-novel" aria-controls="app-window" aria-selected="true" data-form="novel">Novel</button>
+          <button role="tab" id="tab-play" aria-controls="app-window" aria-selected="false" tabindex="-1" data-form="play">Play</button>
+        </div>
         <div class="views" role="tablist" aria-label="Page">
           <button role="tab" id="tab-scene" aria-controls="view-scene" aria-selected="true" data-view="scene">Scene</button>
           <button role="tab" id="tab-board" aria-controls="view-board" aria-selected="false" tabindex="-1" data-view="board">Board</button>
@@ -54,100 +60,32 @@
         </div>
       </div>
 
-      <div class="window">
-        <div class="titlebar" aria-hidden="true">
-          <span class="lights"><i></i><i></i><i></i></span>
-          <span class="tb-icons"><svg viewBox="0 0 16 16"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M6 2.5v11"/></svg><svg viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"/></svg><svg viewBox="0 0 16 16"><path d="m6 3 5 5-5 5"/></svg></span>
-          <span class="tb-more"><svg viewBox="0 0 16 16"><circle cx="3" cy="8" r="1.2"/><circle cx="8" cy="8" r="1.2"/><circle cx="13" cy="8" r="1.2"/></svg></span>
+      <div class="window" id="app-window" role="tabpanel" aria-labelledby="tab-novel">
+        <div class="titlebar">
+          <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="tb-nav"><button class="tb-btn" id="tb-sidebar" type="button" aria-label="Hide Sidebar" aria-pressed="false"></button><button class="tb-btn" type="button" aria-label="Back" disabled></button><button class="tb-btn" type="button" aria-label="Forward" disabled></button></span>
+          <span class="tb-gap"></span>
+          <button class="tb-btn" type="button" aria-label="Quick Switcher" disabled></button>
+          <button class="tb-btn" id="tb-more" type="button" aria-label="Version History" aria-expanded="false"></button>
         </div>
         <div class="win-body">
-          <aside class="sidebar" aria-label="Sample novel outline">
-            <div class="sb-panel">
-              <div class="sb-novel"><span class="serif">The Canterville Ghost — Excerpt</span><span class="chev open" aria-hidden="true"></span></div>
-              <div class="sb-search" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>Search<kbd>⌘K</kbd></div>
-              <p class="sb-label">Manuscript</p>
-              <div class="sb-row sb-chapter"><span class="chev open" aria-hidden="true"></span><span class="num">1</span>Chapter 1</div>
-              <div id="sb-scenes"></div>
-              <p class="sb-label">Story</p>
-              <div class="sb-row sb-story"><span class="chev" aria-hidden="true"></span>Characters<span class="count">9</span></div>
-              <div class="sb-row sb-story"><span class="chev" aria-hidden="true"></span>Arcs<span class="count">2</span></div>
-              <div class="sb-row sb-story"><span class="chev" aria-hidden="true"></span>Locations<span class="count">1</span></div>
-              <div class="sb-row sb-story"><span class="chev" aria-hidden="true"></span>Notes<span class="count">2</span></div>
-              <div class="sb-row sb-progress"><span class="ring" aria-hidden="true"></span>Progress</div>
+          <aside class="m-sidebar" id="m-sidebar">
+            <div class="m-panel">
+              <div class="m-name" id="m-name"></div>
+              <nav class="m-outline" id="m-outline" aria-label="Outline"></nav>
+              <div class="m-saved" id="m-saved"></div>
             </div>
           </aside>
-
-          <div class="page-col">
-            <div id="view-scene" role="tabpanel" aria-labelledby="tab-scene" class="view">
-              <div class="crumb">The Canterville Ghost — Excerpt <span>/</span> <b>Chapter 1</b></div>
-              <div class="scroll">
-                <div class="scene-wrap">
-                  <article class="page">
-                    <h3 class="page-title" id="scene-title"></h3>
-                    <dl class="props">
-                      <div><dt>Status</dt><dd><span class="status"><i></i>Done</span></dd></div>
-                      <div><dt>Characters</dt><dd id="scene-chars" class="chips"></dd></div>
-                      <div><dt>Arcs</dt><dd id="scene-arcs" class="chips"></dd></div>
-                      <div><dt>Location</dt><dd>Canterville Chase</dd></div>
-                      <div><dt>Synopsis</dt><dd id="scene-synopsis" class="muted"></dd></div>
-                    </dl>
-                    <div class="manuscript" id="scene-text"></div>
-                  </article>
-                  <aside class="inspector" aria-label="Scene inspector">
-                    <section>
-                      <h4 class="sb-label">Comments</h4>
-                      <div id="comments"></div>
-                    </section>
-                    <section>
-                      <h4 class="sb-label">Versions</h4>
-                      <div class="version"><b>v1</b><span>Source excerpt — Oscar Wilde (1906 edition)</span><small id="version-words"></small></div>
-                    </section>
-                  </aside>
-                </div>
-              </div>
-              <div class="footer-bar"><span id="scene-count"></span><span class="muted">Last backup: 12 min ago</span><span class="focus">Focus</span></div>
-            </div>
-
-            <div id="view-board" role="tabpanel" aria-labelledby="tab-board" class="view" hidden>
-              <div class="scroll">
-                <div class="board">
-                  <h3 class="page-title">The Canterville Ghost — Excerpt</h3>
-                  <div class="metrics">
-                    <div class="metric"><span class="sb-label">Words</span><b>1,492</b><span class="bar"><i></i></span></div>
-                    <div class="metric"><span class="sb-label">Scenes by status</span><b>3 done</b><span class="bar done"><i></i></span></div>
-                    <div class="metric"><span class="sb-label">Open comments</span><b>1</b><span class="muted small">Buying a Haunted House</span></div>
-                  </div>
-                  <div class="controls" aria-hidden="true"><span>Color by <b>Arc</b><span class="chev open"></span></span><span>Filter<span class="chev open"></span></span></div>
-                  <div class="columns">
-                    <div class="column">
-                      <h4><span class="num">1</span>Chapter 1</h4>
-                      <p class="muted small">3 scenes · 1,492 words</p>
-                      <div id="board-cards"></div>
-                    </div>
-                    <div class="column column-empty" aria-hidden="true"><span>+ Add chapter</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div id="view-book" role="tabpanel" aria-labelledby="tab-book" class="view" hidden>
-              <div class="book-wrap">
-                <div class="scroll" id="book-scroll" tabindex="0" aria-label="The whole sample, typeset as a book">
-                  <div class="book" id="book"></div>
-                </div>
-                <nav class="rail" aria-label="Contents">
-                  <span class="sb-label">Contents</span>
-                  <a class="rail-ch" href="#book-ch" data-target="book-ch"><span class="num">1</span>Chapter 1</a>
-                  <div id="rail-scenes"></div>
-                </nav>
-              </div>
-            </div>
+          <div class="m-page">
+            <div id="view-scene" role="tabpanel" aria-labelledby="tab-scene" class="view"></div>
+            <div id="view-board" role="tabpanel" aria-labelledby="tab-board" class="view" hidden></div>
+            <div id="view-book" role="tabpanel" aria-labelledby="tab-book" class="view" hidden></div>
           </div>
         </div>
       </div>
 
-      <p class="preview-note" id="preview-note">Pick a scene. Click the highlighted phrase to read the comment.</p>
-      <p class="credit" id="sample-credits">Oscar Wilde’s <cite>The Canterville Ghost</cite>, excerpted from <a href="https://www.gutenberg.org/ebooks/14522">Project Gutenberg</a>.</p>
+      <p class="preview-note" id="preview-note">Pick a scene from the outline. Click the highlighted phrase to read its comment.</p>
+      <p class="credit" id="sample-credits">Oscar Wilde’s <cite>The Canterville Ghost</cite> (1906), from <a href="https://www.gutenberg.org/ebooks/14522">Project Gutenberg</a>. Scene titles, synopses and comments are the sample’s, not Wilde’s.</p>
     </div>
   </section>
 
