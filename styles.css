@@ -196,7 +196,12 @@ h1 { font-family: var(--title); font-weight: 400; font-size: clamp(44px, 6.4vw, 
 .m-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; }
 
 /* Scene page: breadcrumb, title and properties staying put, the text scrolling with its comment margin, the bar. */
-.m-scene { --x: 24px; --w: 480px; --reserve: 0px; flex: 1; min-height: 0; display: flex; flex-direction: column; transition: padding-right .2s ease-out; }
+.m-scene { container-type: inline-size; flex: 1; min-height: 0; display: flex; flex-direction: column; transition: padding-right .2s ease-out; }
+/* The text column (Theme.textColumn): no wider than the measure, centred in what the comment margin leaves, 24pt from the edge.
+   The margin (MarginMode) holds cards where 460pt of text still fit beside them, else markers. */
+.m-scene > * { --reserve: 0px; --w: min(480px, 100cqw - var(--reserve) - 48px); --x: max(24px, (100cqw - var(--reserve) - var(--w)) / 2); }
+.m-scene.has-comment > * { --reserve: 32px; }
+@container (min-width: 736px) { .m-scene.has-comment > * { --reserve: 276px; } }
 .m-scene.with-panel { padding-right: 360px; }
 .m-crumb { height: 36px; flex: none; display: flex; align-items: center; gap: 4px; padding-left: calc(var(--x) + 5px); padding-right: 24px; font-size: 13px; color: var(--ink-2); white-space: nowrap; overflow: hidden; }
 .m-crumb button:hover { color: var(--ink); }
@@ -233,12 +238,12 @@ h1 { font-family: var(--title); font-weight: 400; font-size: clamp(44px, 6.4vw, 
 .m-text mark.on { background: var(--hl-on); }
 
 /* The script editor: the page's elements at the editor's measure (470 points for 432 on the page), in Courier. */
-.m-script { --k: 1; font-family: var(--mono); font-size: calc(13.06px * var(--k)); line-height: calc(14.8px * var(--k)); }
+.m-script { --m: min(470px, var(--w) - 10px); font-family: var(--mono); font-size: calc(var(--m) * .027787); line-height: calc(var(--m) * .031489); }
 .m-script p { margin: 0; }
-.m-script .n { text-align: center; margin-right: calc(39.2px * var(--k)); margin-top: calc(14.8px * var(--k)); }
-.m-script .p { padding-left: calc(164.5px * var(--k)); text-indent: calc(-7.83px * var(--k)); }
-.m-script .s { padding-left: calc(125.3px * var(--k)); text-indent: calc(-7.83px * var(--k)); margin-top: calc(14.8px * var(--k)); padding-right: calc(7.83px * var(--k)); }
-.m-script .t { text-align: right; margin-top: calc(14.8px * var(--k)); }
+.m-script .n { text-align: center; margin-right: calc(var(--m) * .083404); margin-top: calc(var(--m) * .031489); }
+.m-script .p { padding-left: calc(var(--m) * .35); text-indent: calc(var(--m) * -.01666); }
+.m-script .s { padding-left: calc(var(--m) * .266596); text-indent: calc(var(--m) * -.01666); margin-top: calc(var(--m) * .031489); padding-right: calc(var(--m) * .01666); }
+.m-script .t { text-align: right; margin-top: calc(var(--m) * .031489); }
 .m-script p:first-child { margin-top: 0; }
 
 .m-margin { position: absolute; top: 0; right: 0; width: var(--reserve); }

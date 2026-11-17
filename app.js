@@ -51,9 +51,11 @@
 // The interactive preview: a drawing of the Mac app's window (Rozdzial/ in the app's repository) showing its sample novel
 // (window.SAMPLE) or its sample play (window.SAMPLE_PLAY): the sidebar, a scene, the Board, and the Manuscript or the Script.
 (() => {
-  const DATA = { novel: window.SAMPLE, play: window.SAMPLE_PLAY };
+  // The page opens on the novel's first scene: index.html holds the window as this script first draws it (tools/prerender.js),
+  // and sample.js holds only the outline and that scene's text. Every other scene's text, the play and its page layout are
+  // loaded once the window has drawn, or when the visitor first asks for them.
   const win = document.getElementById('app-window');
-  if (!win || !DATA.novel || !DATA.play || !window.ScriptLayout) return;
+  if (!win || !window.SAMPLE) return;
   const $ = (sel, root = document) => root.querySelector(sel);
   const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   const narrow = () => matchMedia('(max-width: 820px)').matches;
@@ -126,7 +128,40 @@
     Object.defineProperty(S, 'layout', { get() { return this._layout || (this._layout = window.ScriptLayout.layOut(this)); } });
     return S;
   }
-  const forms = { novel: prepare(DATA.novel), play: prepare(DATA.play) };
+  const forms = { novel: prepare(window.SAMPLE), play: null };
+
+  // MARK: Loading what the opening view does not need
+
+  const version = '?v=play-demo';
+  const scripts = {};
+  const load = (src) => scripts[src] || (scripts[src] = new Promise((done, fail) => {
+    const tag = document.createElement('script');
+    tag.src = src + version;
+    tag.onload = done;
+    tag.onerror = () => { delete scripts[src]; tag.remove(); fail(new Error(`Could not load ${src}`)); };
+    document.head.append(tag);
+  }));
+  let textReady = null, playReady = null;
+  // Every scene's text, in book order.
+  const novelText = () => textReady || (textReady = load('sample-novel-text.js').then(() => {
+    forms.novel.scenes.forEach((scene, i) => { scene.paragraphs = scene.paragraphs || window.SAMPLE_TEXT[i]; });
+  }).catch((e) => { textReady = null; throw e; }));
+  // The play, and its pages laid out (a few milliseconds), off the first draw.
+  const playData = () => playReady || (playReady = Promise.all([load('sample-play.js'), load('script-layout.js')]).then(() => new Promise((done) => setTimeout(() => {
+    if (!forms.play) {
+      forms.play = prepare(window.SAMPLE_PLAY);
+      void forms.play.layout;
+      state.scene.play = forms.play.scenes[0].id;
+    }
+    done();
+  }, 0))).catch((e) => { playReady = null; throw e; }));
+  // What a form and view need before they can be drawn whole: nothing is drawn half way.
+  function need(form, view, sceneId) {
+    if (form === 'play') return playData();
+    const scene = forms.novel.scenes.find((s) => s.id === (sceneId || state.scene.novel));
+    if (view === 'book' || (view === 'scene' && !scene.paragraphs)) return novelText();
+    return Promise.resolve();
+  }
 
   // "1 · A Haunted House Changes Hands"; an untitled act is "Act 1".
   const unitName = (S, u) => S.units[u].title ? `${u + 1} · ${S.units[u].title}` : `${S.wording.chapter} ${u + 1}`;
@@ -146,9 +181,9 @@
 
   const params = new URLSearchParams(location.search);
   const state = {
-    form: params.get('form') === 'play' ? 'play' : 'novel',
+    form: 'novel',  // what the window shows; ?form=play asks for the play once it is loaded
     view: ['board', 'book'].includes(params.get('view')) ? params.get('view') : 'scene',
-    scene: { novel: forms.novel.scenes[0].id, play: forms.play.scenes[0].id },
+    scene: { novel: forms.novel.scenes[0].id, play: null },
     collapsed: { novel: new Set(), play: new Set() },
     groups: new Set(),
     storyOpen: true,
@@ -165,7 +200,7 @@
 
   const tbSidebar = $('#tb-sidebar'), tbMore = $('#tb-more');
   const tbButtons = win.querySelectorAll('.titlebar .tb-btn');
-  [['sidebar', 0], ['left', 1], ['right', 2], ['search', 3], ['more', 4]].forEach(([name, i]) => tbButtons[i].append(icon(name)));
+  [['sidebar', 0], ['left', 1], ['right', 2], ['search', 3], ['more', 4]].forEach(([name, i]) => tbButtons[i].replaceChildren(icon(name)));
   tbSidebar.addEventListener('click', () => {
     if (narrow()) { win.classList.toggle('show-sidebar'); tbSidebar.setAttribute('aria-pressed', String(win.classList.contains('show-sidebar'))); tbSidebar.setAttribute('aria-label', win.classList.contains('show-sidebar') ? 'Hide Sidebar' : 'Show Sidebar'); return; }
     state.sidebar = !state.sidebar;
@@ -324,7 +359,7 @@
   function renderScene() {
     const s = S(), scene = current(), w = s.wording;
     const comment = scene.comments[0];
-    const page = h('div.m-scene' + (state.versions ? '.with-panel' : ''));
+    const page = h('div.m-scene' + (state.versions ? '.with-panel' : '') + (comment ? '.has-comment' : ''));
     const crumb = h('div.m-crumb', { role: 'navigation', 'aria-label': 'Breadcrumb' },
       h('button', { type: 'button', onclick: () => setView('board') }, 'Board'), h('span', { 'aria-hidden': 'true' }, '/'), h('span.last', unitName(s, scene.unit)));
     const detailsChevron = h('button.m-details-cv', { type: 'button', 'aria-label': 'Details', 'aria-expanded': String(!state.hideDetails), title: state.hideDetails ? 'Show Details' : 'Hide Details',
@@ -364,17 +399,9 @@
   function layoutScene() {
     const { page, text, margin, comment, mark, flow } = sceneParts;
     if (!page || !page.isConnected || sceneView.hidden) return;
-    const panel = state.versions && !narrow() ? 360 : 0;
-    const width = sceneView.clientWidth - panel;
+    // The column itself is styles.css's (a container query): here only whether the margin holds cards or markers.
+    const width = page.clientWidth - (parseFloat(getComputedStyle(page).paddingRight) || 0);
     const cards = width - 276 >= 412 + 48;
-    const reserve = comment ? (cards ? 276 : 32) : 0;
-    const column = Math.max(0, Math.min(480, width - reserve - 48));
-    const x = Math.max(24, (width - reserve - column) / 2);
-    page.style.setProperty('--x', `${x}px`);
-    page.style.setProperty('--w', `${column}px`);
-    page.style.setProperty('--reserve', `${reserve}px`);
-    const script = $('.m-script', text);
-    if (script) script.style.setProperty('--k', String(Math.min(1, (column - 10) / 470)));
     margin.replaceChildren();
     if (!comment || !mark) return;
     const top = Math.max(24, mark.offsetTop - 2);
@@ -400,11 +427,7 @@
     }
   }
 
-  function openScene(id) {
-    state.scene[state.form] = id;
-    state.comment = false;
-    setView('scene');
-  }
+  function openScene(id) { go(state.form, 'scene', id); }
 
   // MARK: Board
 
@@ -582,14 +605,30 @@
     play: 'Oscar Wilde’s <cite>The Importance of Being Earnest</cite> (1895), from <a href="https://www.gutenberg.org/ebooks/844">Project Gutenberg</a>, transcribed by David Price. Scene divisions, titles, synopses and comments are the sample’s, not Wilde’s.',
   };
 
-  function setView(view, focus) {
+  // Every change of form, view or scene: once what it needs is loaded, drawn whole; the latest request wins.
+  let ticket = 0;
+  function go(form, view, sceneId, focusTab) {
+    const mine = ++ticket;
+    win.setAttribute('aria-busy', 'true');
+    need(form, view, sceneId).then(() => {
+      if (mine !== ticket) return;
+      win.removeAttribute('aria-busy');
+      if (sceneId) { state.scene[form] = sceneId; state.comment = false; }
+      if (form !== state.form || !drawn) applyForm(form, view); else applyView(view);
+      drawn = true;
+      if (focusTab) focusTab.focus();
+      if (!window.__mockHydrated) window.__mockHydrated = performance.now();
+    }, () => { if (mine === ticket) win.removeAttribute('aria-busy'); });
+  }
+  const setView = (view, focus) => go(state.form, view, null, focus ? viewTabs.find((t) => t.dataset.view === view) : null);
+
+  function applyView(view) {
     state.view = view;
     viewTabs.forEach((t) => {
       const on = t.dataset.view === view;
       t.setAttribute('aria-selected', String(on));
       t.tabIndex = on ? 0 : -1;
       document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
-      if (on && focus) t.focus();
     });
     tbMore.disabled = view !== 'scene';
     if (view !== 'scene' && state.focus) { state.focus = false; win.classList.remove('focus'); }
@@ -600,7 +639,7 @@
     if (view === 'book') renderBook();
   }
 
-  function setForm(form, focus) {
+  function applyForm(form, view) {
     state.form = form;
     state.versions = false;
     state.comment = false;
@@ -609,12 +648,12 @@
       const on = t.dataset.form === form;
       t.setAttribute('aria-selected', String(on));
       t.tabIndex = on ? 0 : -1;
-      if (on) { win.setAttribute('aria-labelledby', t.id); if (focus) t.focus(); }
+      if (on) win.setAttribute('aria-labelledby', t.id);
     });
     $('#tab-book').textContent = S().wording.manuscript;
     credits.innerHTML = CREDITS[form];
     $('#m-outline').scrollTop = 0;
-    setView(state.view);
+    applyView(view);
   }
 
   const arrows = (tabs, pick) => tabs.forEach((t, i) => {
@@ -626,8 +665,13 @@
       pick(tabs[(n + tabs.length) % tabs.length], true);
     });
   });
-  arrows(formTabs, (t, focus) => setForm(t.dataset.form, focus));
+  arrows(formTabs, (t, focus) => go(t.dataset.form, state.view, null, focus ? t : null));
   arrows(viewTabs, (t, focus) => setView(t.dataset.view, focus));
+  // The play starts loading as soon as the visitor reaches for it.
+  const warm = () => playData().catch(() => {});
+  formTabs.find((t) => t.dataset.form === 'play').addEventListener('pointerenter', warm);
+  formTabs.find((t) => t.dataset.form === 'play').addEventListener('focus', warm);
+  formTabs.find((t) => t.dataset.form === 'play').addEventListener('touchstart', warm, { passive: true });
 
   // Widths: the text column and the comment margin, the band, the sheets and the rail follow the window.
   let lastWide = null;
@@ -643,5 +687,9 @@
     }
   }).observe(win);
 
-  setForm(state.form);
+  // Draw the window (the same as index.html already shows for the novel's first scene), then fetch the rest of the novel.
+  let drawn = false;
+  go(params.get('form') === 'play' ? 'play' : 'novel', state.view);
+  const later = () => (window.requestIdleCallback ? requestIdleCallback(() => novelText().catch(() => {}), { timeout: 3000 }) : setTimeout(() => novelText().catch(() => {}), 1000));
+  if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
 })();
