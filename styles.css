@@ -407,9 +407,10 @@ h2 { font-family: var(--title); font-weight: 400; font-size: clamp(32px, 3.8vw, 
 .group dd { color: var(--ink-2); font-size: 14px; margin: var(--s1) 0 var(--s4); }
 
 .mobile { background: var(--band); padding: var(--s9) 0; margin-bottom: var(--s9); }
-.shot-ipad { border-radius: 18px; overflow: hidden; border: 1px solid var(--rule); box-shadow: var(--window-shadow); }
-.shots-phone { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s6); margin: var(--s7) auto 0; max-width: 860px; }
-.shots-phone img { border-radius: 22px; border: 1px solid var(--rule); box-shadow: var(--window-shadow); }
+.shots-ipad { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s6); max-width: 1000px; margin: 0 auto; }
+.shots-ipad img { border-radius: 18px; border: 1px solid var(--rule); box-shadow: var(--window-shadow); }
+.shots-phone { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s5); margin: var(--s7) auto 0; max-width: 1000px; }
+.shots-phone img { border-radius: 18px; border: 1px solid var(--rule); box-shadow: var(--window-shadow); }
 .shots-phone figcaption { margin-top: var(--s3); font-size: 13px; color: var(--ink-2); text-align: center; }
 .mobile .credit { margin-top: var(--s5); text-align: center; max-width: none; }
 
@@ -445,9 +446,10 @@ h2 { font-family: var(--title); font-weight: 400; font-size: clamp(32px, 3.8vw, 
   .site-header nav a:nth-child(3) { display: none; }
   .lede { font-size: 17px; }
   .preview-bar { flex-direction: column; align-items: flex-start; }
-  .shots-phone { grid-template-columns: repeat(3, 62%); overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--s4); padding-bottom: var(--s2); }
-  .shots-phone figure { scroll-snap-align: start; }
-  .shot-ipad { border-radius: 10px; }
+  .shots-phone { grid-template-columns: repeat(5, 62%); overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--s4); padding-bottom: var(--s2); }
+  .shots-ipad { grid-template-columns: repeat(2, 84%); overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--s4); padding-bottom: var(--s2); }
+  .shots-phone figure, .shots-ipad figure { scroll-snap-align: start; }
+  .shots-ipad img { border-radius: 12px; }
   .file-grid { grid-template-columns: minmax(0, 1fr); gap: var(--s4); }
   .mobile { padding: var(--s8) 0; }
   .features, .files, .faq, .preview { padding-bottom: var(--s8); }
