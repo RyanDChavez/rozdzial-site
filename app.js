@@ -583,27 +583,17 @@
     reading.targets.forEach((t) => t.a.classList.toggle('on', t === unit || t === scene));
   }
 
-  // MARK: Tabs, notes and credits
+  // MARK: The sample choice and the caption
 
   const formTabs = [...document.querySelectorAll('[data-form]')];
-  const viewTabs = [...document.querySelectorAll('[data-view]')];
   const note = $('#preview-note'), credits = $('#sample-credits');
-  const NOTES = {
-    novel: {
-      scene: 'Pick a scene from the outline. Click the highlighted phrase to read its comment; ⋯ in the titlebar opens Version History.',
-      board: 'Each chapter is a column. Every card opens its scene.',
-      book: 'The whole draft, set like a book. It reads better than you expect, or worse, which is just as useful.',
-    },
-    play: {
-      scene: 'Pick a scene from the outline. Names, speeches and stage directions sit where the script prints them. Lady Bracknell’s Questions has a comment.',
-      board: 'Each act is a column. Every card opens its scene.',
-      book: 'The whole play as printed pages, numbered act, scene and page.',
-    },
+  const CAPTIONS = {
+    novel: ['Try it. Open a scene, the Board or the Manuscript.',
+      'The story is Oscar Wilde’s <em>The Canterville Ghost</em>, from <a href="https://www.gutenberg.org/ebooks/14522">Project Gutenberg</a>. Scene titles, synopses and comments were added for this sample.'],
+    play: ['Try it. Open a scene, the Board or the Script.',
+      'The play is Oscar Wilde’s <em>The Importance of Being Earnest</em>, from <a href="https://www.gutenberg.org/ebooks/844">Project Gutenberg</a>. Scene titles, synopses and comments were added for this sample.'],
   };
-  const CREDITS = {
-    novel: 'Oscar Wilde’s <cite>The Canterville Ghost</cite> (1906), from <a href="https://www.gutenberg.org/ebooks/14522">Project Gutenberg</a>. Scene titles, synopses and comments are the sample’s, not Wilde’s.',
-    play: 'Oscar Wilde’s <cite>The Importance of Being Earnest</cite> (1895), from <a href="https://www.gutenberg.org/ebooks/844">Project Gutenberg</a>, transcribed by David Price. Scene divisions, titles, synopses and comments are the sample’s, not Wilde’s.',
-  };
+  const views = { scene: sceneView, board: boardView, book: bookView };
 
   // Every change of form, view or scene: once what it needs is loaded, drawn whole; the latest request wins.
   let ticket = 0;
@@ -620,19 +610,13 @@
       if (!window.__mockHydrated) window.__mockHydrated = performance.now();
     }, () => { if (mine === ticket) win.removeAttribute('aria-busy'); });
   }
-  const setView = (view, focus) => go(state.form, view, null, focus ? viewTabs.find((t) => t.dataset.view === view) : null);
+  const setView = (view) => go(state.form, view);
 
   function applyView(view) {
     state.view = view;
-    viewTabs.forEach((t) => {
-      const on = t.dataset.view === view;
-      t.setAttribute('aria-selected', String(on));
-      t.tabIndex = on ? 0 : -1;
-      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
-    });
+    for (const [name, node] of Object.entries(views)) node.hidden = name !== view;
     tbMore.disabled = view !== 'scene';
     if (view !== 'scene' && state.focus) { state.focus = false; win.classList.remove('focus'); }
-    note.textContent = NOTES[state.form][view];
     renderSidebar();
     if (view === 'scene') renderScene();
     if (view === 'board') renderBoard();
@@ -650,8 +634,8 @@
       t.tabIndex = on ? 0 : -1;
       if (on) win.setAttribute('aria-labelledby', t.id);
     });
-    $('#tab-book').textContent = S().wording.manuscript;
-    credits.innerHTML = CREDITS[form];
+    note.textContent = CAPTIONS[form][0];
+    credits.innerHTML = CAPTIONS[form][1];
     $('#m-outline').scrollTop = 0;
     applyView(view);
   }
@@ -666,7 +650,6 @@
     });
   });
   arrows(formTabs, (t, focus) => go(t.dataset.form, state.view, null, focus ? t : null));
-  arrows(viewTabs, (t, focus) => setView(t.dataset.view, focus));
   // The play starts loading as soon as the visitor reaches for it.
   const warm = () => playData().catch(() => {});
   formTabs.find((t) => t.dataset.form === 'play').addEventListener('pointerenter', warm);
