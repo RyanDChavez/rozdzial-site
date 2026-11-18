@@ -24,7 +24,8 @@ const end = '<!-- /prerender -->';
   await page.waitForFunction(() => window.__mockHydrated);
   const inner = await page.evaluate(() => {
     const win = document.getElementById('app-window').cloneNode(true);
-    win.querySelectorAll('.m-margin').forEach((m) => m.replaceChildren());  // its cards are placed by the text's lines
+    // A wide page's comment card stays (its place is the same at every wide width); any other is placed by the text's lines.
+    win.querySelectorAll('.m-margin > :not(.wide)').forEach((m) => m.remove());
     win.querySelectorAll('#view-board, #view-book').forEach((v) => v.replaceChildren());
     win.querySelector('#m-outline').removeAttribute('style');
     const body = win.querySelector('.win-body');

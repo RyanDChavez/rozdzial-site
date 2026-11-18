@@ -390,11 +390,17 @@
       h('button', { type: 'button', onclick: () => setView('board') }, 'Board'), h('span', { 'aria-hidden': 'true' }, '/'), h('span.last', unitName(s, scene.unit)));
     const detailsChevron = h('button.m-details-cv', { type: 'button', 'aria-label': 'Details', 'aria-expanded': String(!state.hideDetails), title: state.hideDetails ? 'Show Details' : 'Hide Details',
       onclick: () => { state.hideDetails = !state.hideDetails; renderScene(); } }, icon('chevron'));
-    const head = h('div.m-head', h('h3.m-title', scene.title), h('div', { style: { position: 'relative' } }, detailsChevron, state.hideDetails ? summary(s, scene) : properties(s, scene)));
+    const head = h('div.m-head', h('h3.m-title', scene.title));
+    // The details: above the text on a narrow page; on a wide one (styles.css, 836 points of page) a column a gutter right of
+    // the text, its heading line holding the chevron, pinned while the text scrolls (the app's ScenePage, #115).
+    const heading = h('div.m-dhead', h('button.m-dhead-cv', { type: 'button', 'aria-label': 'Details', 'aria-expanded': String(!state.hideDetails), title: state.hideDetails ? 'Show Details' : 'Hide Details',
+      onclick: () => { state.hideDetails = !state.hideDetails; renderScene(); } }, icon('chevron')), h('span', { 'aria-hidden': 'true' }, 'Details'));
+    const details = h('div.m-details', heading, h('div', { style: { position: 'relative' } }, detailsChevron, state.hideDetails ? summary(s, scene) : properties(s, scene)));
     const text = h('div.m-text', sceneText(s, scene));
     const margin = h('div.m-margin');
     const flow = h('div', { style: { position: 'relative' } }, text, margin);
     const editor = h('div.m-editor.m-fade', { tabindex: '0', 'aria-label': `${scene.title}, the scene's text` }, flow);
+    const body = h('div.m-body', details, editor);
     const prev = s.scenes[scene.index - 1], next = s.scenes[scene.index + 1];
     const step = (label, ic, target) => h('button', { type: 'button', 'aria-label': target ? `${label}: ${target.title}` : label, title: target ? `${label}: ${target.title}` : label, disabled: !target, onclick: () => target && openScene(target.id) }, icon(ic));
     const bar = h('div.m-bar',
@@ -403,7 +409,7 @@
       h('span.m-goal', icon('target'), `${fmt(s.dailyWords)} words to your daily goal`, h('span.m-meter', h('i', { style: { width: '0%' } }))),
       h('span.m-end', h('span.ses', icon('play'), 'Session'),
         h('button', { type: 'button', 'aria-pressed': String(state.focus), onclick: () => { state.focus = !state.focus; win.classList.toggle('focus', state.focus); renderScene(); } }, icon('focus'), state.focus ? 'Exit Focus' : 'Focus')));
-    page.append(crumb, head, editor, bar);
+    page.append(crumb, head, body, bar);
     const parts = [page];
     if (state.versions) {
       const n = scene.words;
@@ -416,7 +422,8 @@
     }
     sceneView.replaceChildren(...parts);
     tbMore.setAttribute('aria-expanded', String(state.versions));
-    sceneParts = { page, editor, text, margin, flow, comment, mark: $('mark', text) };
+    sceneParts = { page, editor, text, margin, flow, details, comment, mark: $('mark', text) };
+    editor.addEventListener('scroll', () => { if (sceneParts.wide) placeCard(); }, { passive: true });
     if (comment && sceneParts.mark) sceneParts.mark.addEventListener('click', () => selectComment(true));
     layoutScene();
   }
@@ -425,15 +432,20 @@
   function layoutScene() {
     const { page, text, margin, comment, mark, flow } = sceneParts;
     if (!page || !page.isConnected || sceneView.hidden) return;
-    // The column itself is styles.css's (a container query): here only whether the margin holds cards or markers.
+    // The column itself is styles.css's (a container query): here only whether the margin holds cards or markers, and in the
+    // wide layout where the card sits under the details.
     const width = page.clientWidth - (parseFloat(getComputedStyle(page).paddingRight) || 0);
-    const cards = width - 276 >= 412 + 48;
+    const wide = getComputedStyle(sceneParts.details).position === 'absolute';
+    const cards = wide || width - 276 >= 412 + 48;
+    sceneParts.wide = wide;
     margin.replaceChildren();
     if (!comment || !mark) return;
     const top = Math.max(24, mark.offsetTop - 2);
-    const card = () => h('button.m-card' + (state.comment ? '.on' : ''), { type: 'button', onclick: () => selectComment(true, true) },
+    const card = () => h('button.m-card' + (state.comment ? '.on' : '') + (wide ? '.wide' : ''), { type: 'button', onclick: () => selectComment(true, true) },
       h('q', comment.quote), comment.text, h('small', commentStamp));
-    if (cards) {
+    if (wide) {
+      sceneParts.card = card(); sceneParts.anchor = top; margin.append(sceneParts.card); placeCard();
+    } else if (cards) {
       const c = card(); c.style.top = `${top}px`; margin.append(c);
     } else {
       margin.append(h('button.m-marker' + (state.comment ? '.on' : ''), { type: 'button', 'aria-label': `Comment: ${comment.text}`, 'aria-expanded': String(state.comment), style: { top: `${top}px` },
@@ -441,6 +453,16 @@
       $('.m-pop', flow)?.remove();
       if (state.comment) { const pop = h('div.m-pop', { style: { top: `${top + 26}px` } }, card()); flow.append(pop); }
     }
+  }
+
+  // The wide layout's card (the app's CommentMargin keep-out, #115): at its line, but never over the part of the details in
+  // view (12 points under them and the cards' 8); once its line scrolls above what is in view it is not drawn.
+  function placeCard() {
+    const { card, anchor, editor, details } = sceneParts;
+    if (!card || !card.isConnected) return;
+    const top = editor.scrollTop;
+    card.style.top = `${Math.max(anchor, top + 24 + details.offsetHeight + 12 + 8)}px`;
+    card.hidden = anchor < top;
   }
 
   function selectComment(on, reveal) {
@@ -484,15 +506,20 @@
     }
     band[band.length - 1].title = legend;
     const bandNode = h('div.m-band', ...band);
-    const lanes = h('div.m-lanes.m-fade', s.units.map((unit, u) => h('div.m-col', h('div.m-col-in',
-      h('div.m-colhead', h('div', h('h5', unit.title ? [h('span.n', String(u + 1)), '  ' + unit.title] : `${w.chapter} ${u + 1}`), h('p', unitLine(s, unit))), h('span', { 'aria-hidden': 'true' }, icon('more'))),
-      unit.scenes.map((scene) => card(s, scene)),
-      h('div.m-addscene', { 'aria-hidden': 'true' }, icon('plus'), 'Add scene')))),
+    // One scroll of chapters (acts), each a band: a hairline over all but the first, its heading line, then its cards left to
+    // right at one width, as many to a line as fit at 220 points, wrapping (the app's NovelPage ChapterBand and CardGrid, #116).
+    const bands = h('div.m-bands.m-fade', s.units.map((unit, u) => h('section.m-chap', { 'aria-label': unit.title || `${w.chapter} ${u + 1}` },
+      u ? h('hr') : null,
+      h('div.m-chead',
+        h('h5', unit.title ? [h('span.n', String(u + 1)), '  ' + unit.title] : `${w.chapter} ${u + 1}`),
+        h('span.cnt', unitLine(s, unit)),
+        h('span.acts', { 'aria-hidden': 'true' }, h('span.more', icon('more')), icon('plus'))),
+      unit.scenes.length ? h('div.m-cards', unit.scenes.map((scene) => card(s, scene))) : h('p.m-none', 'No scenes yet'))),
       h('div.m-addcol', { 'aria-hidden': 'true' }, icon('plus'), `Add ${w.chapterLower}`));
     boardView.replaceChildren(h('div.m-board',
       h('div.m-pagehead', h('h3.m-pagetitle', s.title)), bandNode,
       h('div.m-controls', { 'aria-hidden': 'true' }, h('span.acc', 'Color by: Status', icon('down')), h('span', icon('filter'), 'Filter')),
-      lanes));
+      bands));
     fitBand();
   }
 
