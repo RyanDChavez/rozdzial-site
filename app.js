@@ -1,3 +1,29 @@
+// Light or dark. The head's script applies a stored choice before first paint (no choice: the stylesheet follows the system).
+// This keeps the button's words and the theme-color in step and stores a new choice.
+(() => {
+  const root = document.documentElement, button = document.getElementById('theme-toggle');
+  if (!button) return;
+  const system = matchMedia('(prefers-color-scheme: dark)');
+  const metas = [...document.querySelectorAll('meta[name="theme-color"]')];
+  const defaults = metas.map((m) => m.content);
+  const shown = () => root.dataset.theme || (system.matches ? 'dark' : 'light');
+  const sync = () => {
+    const words = shown() === 'dark' ? 'Switch to light' : 'Switch to dark';
+    button.setAttribute('aria-label', words);
+    button.title = words;
+    const chosen = root.dataset.theme;
+    metas.forEach((m, i) => { m.content = chosen ? (chosen === 'dark' ? '#2E2A25' : '#FBF9F3') : defaults[i]; });
+  };
+  button.addEventListener('click', () => {
+    const next = shown() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    sync();
+  });
+  system.addEventListener('change', sync);
+  sync();
+})();
+
 // The hero headline changes its word (select, replace) and its phrase (backspace, retype) in turn. A part that stays the same is left alone.
 (() => {
   const slots = [...document.querySelectorAll('[data-swap]')];
@@ -608,7 +634,12 @@
       drawn = true;
       if (focusTab) focusTab.focus();
       if (!window.__mockHydrated) window.__mockHydrated = performance.now();
-    }, () => { if (mine === ticket) win.removeAttribute('aria-busy'); });
+    }, () => {
+      if (mine !== ticket) return;
+      win.removeAttribute('aria-busy');
+      // What was asked for could not load: the window keeps working on the novel's first scene, which needs nothing more.
+      if (!drawn) { applyForm('novel', 'scene'); drawn = true; window.__mockHydrated = window.__mockHydrated || performance.now(); }
+    });
   }
   const setView = (view) => go(state.form, view);
 
