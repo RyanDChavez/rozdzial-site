@@ -48,8 +48,6 @@
     --well: rgba(236, 230, 217, .04);
     border-color: #1F1C19;
   }
-  .views { background: rgba(0,0,0,.18); }
-  .views button[aria-selected="true"] { background: #4A443C; }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -113,11 +111,17 @@ h1 { font-family: var(--title); font-weight: 400; font-size: clamp(44px, 6.4vw, 
 /* Preview: a drawing of the Mac app's window, in the app's own light and dark tokens (Rozdzial/Theme.swift), for the sample
    novel and the sample play. Sizes are the app's points. */
 .preview { padding-bottom: var(--s9); }
-.preview-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3) var(--s4); margin-bottom: var(--s3); }
-.views { display: inline-flex; padding: 2px; border-radius: 8px; background: var(--well); border: 1px solid var(--rule); }
-.views button { font-size: 13px; padding: 5px 14px; border-radius: var(--r-s); color: var(--ink-2); }
-.views button[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px var(--shadow); }
-.views button:hover { color: var(--ink); }
+/* Above the window: the sample chosen, as the demo's heading; then the page, as a small index of plain words. */
+.preview-bar { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0 var(--s6); margin-bottom: var(--s3); }
+.forms { display: flex; gap: var(--s7); }
+.forms button { min-height: 44px; padding: 2px 0 6px; border-bottom: 2px solid transparent; font: 400 clamp(30px, 3.4vw, 40px)/1.15 var(--title); font-variant-numeric: lining-nums; color: var(--ink-2); }
+.forms button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.forms button:hover, .forms button:focus-visible { color: var(--ink); }
+.forms button:focus-visible { outline-offset: 6px; border-radius: 4px; }
+.pages { display: flex; gap: var(--s3); margin-right: -8px; }
+.pages button { min-height: 44px; padding: 0 8px; border-radius: 6px; font-size: 13px; white-space: nowrap; color: var(--ink-2); }
+.pages button[aria-selected="true"] { color: var(--ink); }
+.pages button:hover, .pages button:focus-visible { color: var(--ink); }
 
 .window {
   --paper-ink: var(--ink); --tertiary: #716C62;
@@ -379,8 +383,7 @@ h1 { font-family: var(--title); font-weight: 400; font-size: clamp(44px, 6.4vw, 
   .m-title, .m-pagetitle { font-size: 30px; }
 }
 @media (max-width: 600px) {
-  .preview-bar { gap: var(--s2); }
-  .views button { padding: 5px 12px; }
+  .forms { gap: var(--s6); }
   .m-bar { gap: 8px; padding: 0 12px; }
   .m-bar .m-goal, .m-bar .m-end .ses { display: none; }
   .m-pagehead, .m-band, .m-controls { margin-left: 16px; margin-right: 16px; }
@@ -446,6 +449,7 @@ h2 { font-family: var(--title); font-weight: 400; font-size: clamp(32px, 3.8vw, 
   .site-header nav a:nth-child(3) { display: none; }
   .lede { font-size: 17px; }
   .preview-bar { flex-direction: column; align-items: flex-start; }
+  .pages { margin: 0 0 0 -8px; }
   .shots-phone { grid-template-columns: repeat(5, 62%); overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--s4); padding-bottom: var(--s2); }
   .shots-ipad { grid-template-columns: repeat(2, 84%); overflow-x: auto; scroll-snap-type: x mandatory; gap: var(--s4); padding-bottom: var(--s2); }
   .shots-phone figure, .shots-ipad figure { scroll-snap-align: start; }
